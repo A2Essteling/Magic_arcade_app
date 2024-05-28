@@ -85,13 +85,13 @@
             android:background="?attr/selectableItemBackground">
 
             <FrameLayout
+                android:id="@+id/attraction1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/attraction_outline"
                 android:padding="8dp">
 
                 <TextView
-                    android:id="@+id/attraction1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/attraction_1"
@@ -118,13 +118,13 @@
             android:background="?attr/selectableItemBackground">
 
             <FrameLayout
+                android:id="@+id/attraction2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/attraction_outline"
                 android:padding="8dp">
 
                 <TextView
-                    android:id="@+id/attraction2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/attraction_2"
@@ -151,13 +151,13 @@
             android:background="?attr/selectableItemBackground">
 
             <FrameLayout
+                android:id="@+id/attraction3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/attraction_outline"
                 android:padding="8dp">
 
                 <TextView
-                    android:id="@+id/attraction3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/attraction_3"
@@ -184,13 +184,13 @@
             android:background="?attr/selectableItemBackground">
 
             <FrameLayout
+                android:id="@+id/attraction4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/attraction_outline"
                 android:padding="8dp">
 
                 <TextView
-                    android:id="@+id/attraction4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/attraction_4"
@@ -217,13 +217,13 @@
             android:background="?attr/selectableItemBackground">
 
             <FrameLayout
+                android:id="@+id/attraction5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/attraction_outline"
                 android:padding="8dp">
 
                 <TextView
-                    android:id="@+id/attraction5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/attraction_5"
@@ -250,13 +250,13 @@
             android:background="?attr/selectableItemBackground">
 
             <FrameLayout
+                android:id="@+id/attraction6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/attraction_outline"
                 android:padding="8dp">
 
                 <TextView
-                    android:id="@+id/attraction6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/attraction_6"

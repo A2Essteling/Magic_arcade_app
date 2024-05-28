@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void connectToBluetoothDevice() {
-        boolean isConnected = false;
+        boolean isConnected = true;
 
         if (isConnected) {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
