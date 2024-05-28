@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">MagicArcade</string>
+    <string name="logo">Logo</string>
+    <string name="enter_name">Enter Name:</string>
+    <string name="enter_ID">Enter Phone ID:</string>
+    <string name="connect">Connect</string>
+    <string name="points_on_account">Points on account:</string>
+    <string name="list_of_attractions">List of attractions:</string>
+    <string name="attraction_1">Attraction 1</string>
+    <string name="attraction_2">Attraction 2</string>
+    <string name="attraction_3">Attraction 3</string>
+    <string name="attraction_4">Attraction 4</string>
+    <string name="attraction_5">Attraction 5</string>
+    <string name="attraction_6">Attraction 6</string>
+    <string name="multiplier_x1">x1</string>
+    <string name="home">Home</string>
+    <string name="QR_scan">QR scan</string>
+    <string name="vouchers">Vouchers</string>
+    <string name="scoreboard">Scoreboard</string>
+</resources>
