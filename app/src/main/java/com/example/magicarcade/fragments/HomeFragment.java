@@ -17,6 +17,7 @@ import com.example.magicarcade.R;
 public class HomeFragment extends Fragment {
 
     private int playerPoints = 200;
+    private TextView pointsTextView;
     public HomeFragment() {}
 
     @Override
@@ -24,8 +25,9 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+        pointsTextView = rootView.findViewById(R.id.textViewPoints);
         setupAttractionListeners(rootView);
-        displayUserPoints(rootView);
+        updatePointsText();
 
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
@@ -86,8 +88,9 @@ public class HomeFragment extends Fragment {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
-    private void displayUserPoints(View rootView) {
-        TextView pointsTextView = rootView.findViewById(R.id.textViewPoints);
-        pointsTextView.setText(getString(R.string.points_on_account) + ": " + playerPoints);
+    private void updatePointsText() {
+        if (pointsTextView != null) {
+            pointsTextView.setText(getString(R.string.points_on_account) + ": " + playerPoints);
+        }
     }
 }

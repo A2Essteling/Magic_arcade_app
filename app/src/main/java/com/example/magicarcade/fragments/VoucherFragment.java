@@ -90,6 +90,7 @@ public class VoucherFragment extends Fragment {
         } else {
             Toast.makeText(getContext(), "Aankoop mislukt. Niet voldoende punten.", Toast.LENGTH_SHORT).show();
         }
+        updatePointsText();
     }
 
     private void updatePointsText() {
