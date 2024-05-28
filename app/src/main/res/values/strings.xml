@@ -17,4 +17,10 @@
     <string name="QR_scan">QR scan</string>
     <string name="vouchers">Vouchers</string>
     <string name="scoreboard">Scoreboard</string>
+    <string name="redeem_voucher">Redeem voucher</string>
+    <string name="Voucher_5">Voucher 5: Gratis toegang tot een spel - 250 punten</string>
+    <string name="Voucher_4">Voucher 4: 50% korting op een speeltje - 200 punten</string>
+    <string name="Voucher_3">Voucher 3: Gratis friet - 150 punten</string>
+    <string name="Voucher_2">Voucher 2: Gratis ijsje - 120 punten</string>
+    <string name="Voucher_1">Voucher 1: Gratis cola - 100 punten</string>
 </resources>
