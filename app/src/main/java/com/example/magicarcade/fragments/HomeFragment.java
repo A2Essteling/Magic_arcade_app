@@ -12,13 +12,15 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.magicarcade.Profile;
 import com.example.magicarcade.R;
 
 public class HomeFragment extends Fragment {
 
-    private int playerPoints = 200;
     private TextView pointsTextView;
-    public HomeFragment() {}
+    public HomeFragment() {
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -90,7 +92,7 @@ public class HomeFragment extends Fragment {
 
     private void updatePointsText() {
         if (pointsTextView != null) {
-            pointsTextView.setText(getString(R.string.points_on_account) + ": " + playerPoints);
+            pointsTextView.setText(getString(R.string.points_on_account) + ": " + Profile.getPoints());
         }
     }
 }
