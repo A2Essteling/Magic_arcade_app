@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             String name = editTextName.getText().toString();
             startActivity(intent);
-            Profile.setId(name);
+            Profile.setUserID(name);
             Profile.setPoints(200);
             Profile.setHighScore(0);
         } else {
