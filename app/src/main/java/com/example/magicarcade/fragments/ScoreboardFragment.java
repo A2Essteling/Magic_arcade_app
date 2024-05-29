@@ -18,13 +18,11 @@ import java.util.Comparator;
 import java.util.List;
 
 import com.example.magicarcade.Profile;
-
 public class ScoreboardFragment extends Fragment {
 
     private ListView highScoreListView;
     private ScoreAdapter scoreAdapter;
     private List<PlayerScore> scoreList = new ArrayList<>();
-
     public ScoreboardFragment() {
 
     }
@@ -38,12 +36,10 @@ public class ScoreboardFragment extends Fragment {
         scoreAdapter = new ScoreAdapter(getContext(), scoreList);
         highScoreListView.setAdapter(scoreAdapter);
 
-//        addScore("storm", 120); // test data voor highscores
-//        addScore("storm2", 100);
-//        addScore("storm3", 12);
-//        addScore("storm4", 0);
-//        addScore("storm4", 20);
-//        addScore("storm4", 60);
+        addScore("storm",120);
+        addScore("storm2",100);
+        addScore("storm3",12);
+        addScore("storm4",0);
 
         addScore(Profile.getUserID(), Profile.getHighScore());
 
@@ -51,7 +47,6 @@ public class ScoreboardFragment extends Fragment {
     }
 
     public void addScore(String name, int score) {
-        scoreList.removeIf(playerScore -> playerScore.getName().equalsIgnoreCase(name));
         scoreList.add(new PlayerScore(name, score));
         sortScores();
         scoreAdapter.notifyDataSetChanged();
