@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import com.example.magicarcade.Profile;
 public class ScoreboardFragment extends Fragment {
 
     private ListView highScoreListView;
@@ -39,6 +40,8 @@ public class ScoreboardFragment extends Fragment {
         addScore("storm2",100);
         addScore("storm3",12);
         addScore("storm4",0);
+
+        addScore(Profile.getUserID(), Profile.getHighScore());
 
         return view;
     }

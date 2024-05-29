@@ -41,7 +41,11 @@ public class LoginActivity extends AppCompatActivity {
 
         if (isConnected) {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            String name = editTextName.getText().toString();
             startActivity(intent);
+            Profile.setId(name);
+            Profile.setPoints(200);
+            Profile.setHighScore(0);
         } else {
             new AlertDialog.Builder(LoginActivity.this)
                     .setTitle("Connection Failed")

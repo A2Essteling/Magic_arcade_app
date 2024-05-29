@@ -4,48 +4,46 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Profile {
-    private String userID;
-    private int points;
-    private int highScore;
-    private List<String> vouchers;
+    private static String userID;
+    private static int points;
+    private static int highScore;
+    private static List<String> vouchers = new ArrayList<>();
 
-    public Profile(String userID, int points, int highScore) {
-        this.userID = userID;
-        this.points = points;
-        this.highScore = highScore;
-        this.vouchers = new ArrayList<>();
-    }
+    private Profile() {}
 
-    public String getUserID() {
+    public static String getUserID() {
         return userID;
     }
 
-    public void setUserID(String userID) {
-        this.userID = userID;
+    public static void setId(String userID) {
+        Profile.userID = userID;
     }
 
-    public int getPoints() {
+    public static int getPoints() {
         return points;
     }
 
-    public void setPoints(int points) {
-        this.points = points;
+    public static void setPoints(int points) {
+        Profile.points = points;
     }
 
-    public int getHighScore() {
+    public static int getHighScore() {
         return highScore;
     }
 
-    public void setHighScore(int highScore) {
-        this.highScore = highScore;
+    public static void setHighScore(int highScore) {
+        Profile.highScore = highScore;
     }
 
-    public List<String> getVouchers() {
+    public static List<String> getVouchers() {
         return vouchers;
     }
 
-    public void addVoucher(String voucher) {
-        this.vouchers.add(voucher);
+    public static void addVoucher(String voucher) {
+        Profile.vouchers.add(voucher);
+    }
+
+    public static void clearVouchers() {
+        Profile.vouchers.clear();
     }
 }
-

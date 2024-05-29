@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.magicarcade.Profile;
 import com.example.magicarcade.R;
 
 import java.util.ArrayList;
@@ -20,13 +21,11 @@ import java.util.List;
 
 public class VoucherFragment extends Fragment {
 
-    private int playerPoints = 200; // om te testen
     private TextView selectedVoucher = null;
     private int selectedVoucherCost = 0;
     private String selectedVoucherName = null;
     private TextView pointsTextView;
     private LinearLayout boughtVouchersLayout;
-    private List<String> boughtVouchers = new ArrayList<>();
 
     public VoucherFragment() {
 
@@ -78,10 +77,11 @@ public class VoucherFragment extends Fragment {
             return;
         }
 
+        int playerPoints = Profile.getPoints();
         if (playerPoints >= selectedVoucherCost) {
-            playerPoints -= selectedVoucherCost;
+            Profile.setPoints(playerPoints - selectedVoucherCost);
+            Profile.addVoucher(selectedVoucherName);
             Toast.makeText(getContext(), "Voucher aangeschaft!", Toast.LENGTH_SHORT).show();
-            boughtVouchers.add(selectedVoucherName);
             updateBoughtVouchersDisplay();
             selectedVoucher.setBackgroundColor(0x00000000);
             selectedVoucher = null;
@@ -95,12 +95,13 @@ public class VoucherFragment extends Fragment {
 
     private void updatePointsText() {
         if (pointsTextView != null) {
-            pointsTextView.setText(getString(R.string.points_on_account) + ": " + playerPoints);
+            pointsTextView.setText(getString(R.string.points_on_account) + ": " + Profile.getPoints());
         }
     }
 
     private void updateBoughtVouchersDisplay() {
         boughtVouchersLayout.removeAllViews();
+        List<String> boughtVouchers = Profile.getVouchers();
         for (String voucher : boughtVouchers) {
             TextView textView = new TextView(requireContext());
             textView.setText(voucher);
