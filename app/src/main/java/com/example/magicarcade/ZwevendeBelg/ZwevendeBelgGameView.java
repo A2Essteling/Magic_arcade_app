@@ -15,7 +15,6 @@ public class ZwevendeBelgGameView extends SurfaceView implements Runnable {
     private Thread gameThread;
     private SurfaceHolder holder;
     private boolean running;
-    private Bitmap bird;
     private Paint paint;
     private Bitmap birdDown, birdUp, birdStationary;
     private Bitmap currentBird;
@@ -51,9 +50,12 @@ public class ZwevendeBelgGameView extends SurfaceView implements Runnable {
             }
 
             Canvas canvas = holder.lockCanvas();
-            canvas.drawColor(0xFF87CEEB); // Sky blue background
-            canvas.drawBitmap(bird, 100, 100, paint); // Drawing the bird at position (100, 100)
+            canvas.drawColor(0xFF87CEEB);
+            canvas.drawBitmap(currentBird, 100, 100, paint);
             holder.unlockCanvasAndPost(canvas);
+
+            update();
+            draw();
         }
     }
 
