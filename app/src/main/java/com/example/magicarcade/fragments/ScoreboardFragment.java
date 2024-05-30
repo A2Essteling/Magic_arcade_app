@@ -8,16 +8,16 @@ import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.magicarcade.PlayerScore;
+import com.example.magicarcade.objects.PlayerScore;
 import com.example.magicarcade.R;
-import com.example.magicarcade.ScoreAdapter;
+import com.example.magicarcade.adapters.ScoreAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import com.example.magicarcade.Profile;
+import com.example.magicarcade.objects.Profile;
 
 public class ScoreboardFragment extends Fragment {
 

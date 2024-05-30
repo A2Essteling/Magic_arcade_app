@@ -1,4 +1,4 @@
-package com.example.magicarcade;
+package com.example.magicarcade.objects;
 
 import java.util.ArrayList;
 import java.util.List;

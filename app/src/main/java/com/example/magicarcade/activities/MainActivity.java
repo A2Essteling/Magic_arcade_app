@@ -1,14 +1,12 @@
-package com.example.magicarcade;
+package com.example.magicarcade.activities;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.magicarcade.R;
+import com.example.magicarcade.adapters.ViewPagerAdapter;
 import com.example.magicarcade.fragments.ConnectFragment;
 import com.example.magicarcade.fragments.HomeFragment;
 import com.example.magicarcade.fragments.QRFragment;

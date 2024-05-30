@@ -1,4 +1,4 @@
-package com.example.magicarcade;
+package com.example.magicarcade.objects;
 
 public class PlayerScore {
     private String name;

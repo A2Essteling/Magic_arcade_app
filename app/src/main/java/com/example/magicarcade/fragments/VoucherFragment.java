@@ -13,10 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.magicarcade.Profile;
+import com.example.magicarcade.objects.Profile;
 import com.example.magicarcade.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class VoucherFragment extends Fragment {

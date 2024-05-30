@@ -1,4 +1,4 @@
-package com.example.magicarcade;
+package com.example.magicarcade.activities;
 
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
@@ -9,6 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.magicarcade.objects.Profile;
+import com.example.magicarcade.R;
 
 public class LoginActivity extends AppCompatActivity {
 
