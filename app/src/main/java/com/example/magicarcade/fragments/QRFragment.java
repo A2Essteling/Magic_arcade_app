@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.magicarcade.R;
+import com.example.magicarcade.ZwevendeBelg.ZwevendeBelgGameActivity;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -66,6 +67,11 @@ public class QRFragment extends Fragment {
                 String qrCodeContent = result.getContents();
                 Log.d("qr","Scanned QR code: " + qrCodeContent);
                 // You can now use the scanned QR code content
+                if ("Cobra".equalsIgnoreCase(qrCodeContent)) {
+                    // Start the GameActivity to open the game
+                    Intent intent = new Intent(getActivity(), ZwevendeBelgGameActivity.class);
+                    startActivity(intent);
+                }
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
