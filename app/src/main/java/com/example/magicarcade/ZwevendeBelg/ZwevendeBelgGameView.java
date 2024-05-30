@@ -12,12 +12,12 @@ import android.view.SurfaceView;
 import com.example.magicarcade.R;
 
 public class ZwevendeBelgGameView extends SurfaceView implements Runnable {
-    private Thread gameThread;
+    private Thread gameThread = null;
     private SurfaceHolder holder;
-    private boolean running;
-    private Paint paint;
+    private volatile boolean running = false;
     private Bitmap birdDown, birdUp, birdStationary;
     private Bitmap currentBird;
+    private Paint paint;
     private int birdX, birdY;
     private int birdSpeedY;
     private Bitmap pipeTop, pipeBottom;
@@ -35,6 +35,7 @@ public class ZwevendeBelgGameView extends SurfaceView implements Runnable {
         birdX = 100;
         birdY = 100;
         birdSpeedY = 0;
+
         pipeTop = BitmapFactory.decodeResource(getResources(), R.drawable.car_top_red);
         pipeBottom = BitmapFactory.decodeResource(getResources(), R.drawable.car_bottom_red);
         pipeX = 500;
@@ -49,30 +50,21 @@ public class ZwevendeBelgGameView extends SurfaceView implements Runnable {
                 continue;
             }
 
-            Canvas canvas = holder.lockCanvas();
-            canvas.drawColor(0xFF87CEEB);
-            canvas.drawBitmap(currentBird, 100, 100, paint);
-            holder.unlockCanvasAndPost(canvas);
-
             update();
-            draw();
+            Canvas canvas = null;
+            try {
+                canvas = holder.lockCanvas();
+                synchronized (holder) {
+                    draw(canvas);
+                }
+            } finally {
+                if (canvas != null) {
+                    holder.unlockCanvasAndPost(canvas);
+                }
+            }
         }
     }
 
-    public void resume() {
-        running = true;
-        gameThread = new Thread(this);
-        gameThread.start();
-    }
-
-    public void pause() {
-        running = false;
-        try {
-            gameThread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
     private void update() {
         birdY += birdSpeedY;
         birdSpeedY += 2;
@@ -95,16 +87,14 @@ public class ZwevendeBelgGameView extends SurfaceView implements Runnable {
         }
     }
 
-    private void draw() {
-        Canvas canvas = holder.lockCanvas();
-        canvas.drawColor(0xFF87CEEB);
-        canvas.drawBitmap(currentBird, birdX, birdY, paint);
-        holder.unlockCanvasAndPost(canvas);
-
-        canvas.drawBitmap(pipeTop, pipeX, pipeY - pipeTop.getHeight(), paint);
-        canvas.drawBitmap(pipeBottom, pipeX, pipeY + 200, paint);
-
-        holder.unlockCanvasAndPost(canvas);
+    public void draw(Canvas canvas) {
+        super.draw(canvas);
+        if (canvas != null) {
+            canvas.drawColor(0xFF87CEEB);
+            canvas.drawBitmap(currentBird, birdX, birdY, paint);
+            canvas.drawBitmap(pipeTop, pipeX, pipeY - pipeTop.getHeight(), paint);
+            canvas.drawBitmap(pipeBottom, pipeX, pipeY + 200, paint);
+        }
     }
 
     @Override
@@ -114,6 +104,25 @@ public class ZwevendeBelgGameView extends SurfaceView implements Runnable {
             currentBird = birdUp;
         }
         return true;
+    }
+
+    public void resume() {
+        running = true;
+        gameThread = new Thread(this);
+        gameThread.start();
+    }
+
+    public void pause() {
+        running = false;
+        boolean retry = true;
+        while (retry) {
+            try {
+                gameThread.join();
+                retry = false;
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 
