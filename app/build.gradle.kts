@@ -33,18 +33,13 @@ android {
 
 
 dependencies {
-//    compile 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.0'
-//    compile 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
-
+    implementation(libs.hivemq.mqtt.client)
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
-    implementation(libs.org.eclipse.paho.client.mqttv3)
-    implementation(libs.org.eclipse.paho.android.service)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-//    implementation(libs.core)
     implementation(libs.zxing.android.embedded)
 }

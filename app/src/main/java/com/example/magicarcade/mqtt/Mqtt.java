@@ -1,191 +1,142 @@
+/*
+ * Copyright 2018-present HiveMQ and the HiveMQ Community
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.example.magicarcade.mqtt;
 
 import android.os.Bundle;
-import com.example.magicarcade.R;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+import android.util.Log;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
-import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 
-import org.eclipse.paho.android.service.MqttAndroidClient;
-import org.eclipse.paho.client.mqttv3.DisconnectedBufferOptions;
-import org.eclipse.paho.client.mqttv3.IMqttActionListener;
-import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
-import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
-import org.eclipse.paho.client.mqttv3.IMqttToken;
-import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
-import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
-import org.eclipse.paho.client.mqttv3.MqttException;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
+import com.hivemq.client.mqtt.MqttGlobalPublishFilter;
+import com.hivemq.client.mqtt.datatypes.MqttQos;
+import com.hivemq.client.mqtt.mqtt5.Mqtt5AsyncClient;
+import com.hivemq.client.mqtt.mqtt5.Mqtt5BlockingClient;
+import com.hivemq.client.mqtt.mqtt5.Mqtt5Client;
+import com.hivemq.client.mqtt.mqtt5.message.connect.connack.Mqtt5ConnAck;
+import com.hivemq.client.mqtt.mqtt5.message.disconnect.Mqtt5DisconnectReasonCode;
+import com.hivemq.client.mqtt.mqtt5.message.subscribe.Mqtt5RetainHandling;
+import com.hivemq.client.mqtt.mqtt5.message.subscribe.suback.Mqtt5SubAck;
 
-import java.util.ArrayList;
+import java.util.concurrent.CountDownLatch;
 
-public class Mqtt extends AppCompatActivity {
-    private HistoryAdapter mAdapter;
-
-    MqttAndroidClient mqttAndroidClient;
-
-    final String serverUri = "tcp://iot.eclipse.org:1883";
-
-    String clientId = "ExampleAndroidClient";
-    final String subscriptionTopic = "exampleAndroidTopic";
-    final String publishTopic = "exampleAndroidPublishTopic";
-    final String publishMessage = "Hello World!";
+/**
+ * Shows MQTT 5 features like session expiry, message expiry, user properties, topic aliases, flow control.
+ *
+ * @author Silvio Giebl
+ */
+// @formatter:off
+public class Mqtt extends AppCompatActivity  {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_scrolling);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        final Mqtt5AsyncClient client = Mqtt5Client.builder()
+                .serverHost("broker.hivemq.com")
+                .automaticReconnectWithDefaultConfig()
+                .buildAsync();
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                publishMessage();
-            }
-        });
+        final Mqtt5ConnAck connAck = client.toBlocking().connectWith()
+                .cleanStart(false)          // resume a previous session
+                .sessionExpiryInterval(30)  // keep session state for 30s
+                .restrictions()
+                .receiveMaximum(10)             // receive max. 10 concurrent messages
+                .sendMaximum(10)                // send max. 10 concurrent messages
+                .maximumPacketSize(10_240)      // receive messages with max size of 10KB
+                .sendMaximumPacketSize(10_240)  // send messages with max size of 10KB
+                .topicAliasMaximum(0)           // the server should not use topic aliases
+                .sendTopicAliasMaximum(8)       // use up to 8 aliases for the most used topics (automatically traced)
+                .applyRestrictions()
+                .willPublish()
+                .topic("demo/topic/will")
+                .qos(MqttQos.EXACTLY_ONCE)
+                .payload("rip".getBytes())
+                .contentType("text/plain")  // our payload is text
+                .messageExpiryInterval(120) // not so important, expire message after 2min if can not be delivered
+                .delayInterval(30)          // delay sending out the will message so we can try to reconnect immediately
+                .userProperties()           // add some user properties to the will message
+                .add("sender", "demo-sender-1")
+                .add("receiver", "you")
+                .applyUserProperties()
+                .applyWillPublish()
+                .send();
 
-        RecyclerView mRecyclerView = findViewById(R.id.history_recycler_view);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        Log.d("mqtt","connected " + connAck);
 
-        mAdapter = new HistoryAdapter(new ArrayList<String>());
-        mRecyclerView.setAdapter(mAdapter);
 
-        clientId = clientId + System.currentTimeMillis();
+        final Mqtt5SubAck subAck = client.subscribeWith()
+                .topicFilter("demo/topic/a")
+                .noLocal(true)                                      // we do not want to receive our own message
+                .retainHandling(Mqtt5RetainHandling.DO_NOT_SEND)    // do not send retained messages
+                .retainAsPublished(true)                            // keep the retained flag as it was published
+                .callback(publish -> Log.d("mqtt","received message: " + publish))
+                .send().join();
 
-        mqttAndroidClient = new MqttAndroidClient(getApplicationContext(), serverUri, clientId);
-        mqttAndroidClient.setCallback(new MqttCallbackExtended() {
-            @Override
-            public void connectComplete(boolean reconnect, String serverURI) {
-                if (reconnect) {
-                    addToHistory("Reconnected to : " + serverURI);
-                    // Because Clean Session is true, we need to re-subscribe
-                    subscribeToTopic();
-                } else {
-                    addToHistory("Connected to: " + serverURI);
-                }
-            }
+        Log.d("mqtt","subscribed " + subAck);
 
-            @Override
-            public void connectionLost(Throwable cause) {
-                addToHistory("The Connection was lost.");
-            }
 
-            @Override
-            public void messageArrived(String topic, MqttMessage message) throws Exception {
-                addToHistory("Incoming message: " + new String(message.getPayload()));
-            }
+        client.toBlocking().publishWith()
+                .topic("demo/topic/a")
+                .qos(MqttQos.EXACTLY_ONCE)
+                .payload("payload".getBytes())
+                .retain(true)
+                .contentType("text/plain")  // our payload is text
+                .messageExpiryInterval(120) // not so important, expire message after 2min if can not be delivered
+                .userProperties()           // add some user properties to the message
+                .add("sender", "demo-sender-1")
+                .add("receiver", "you")
+                .applyUserProperties()
+                .send();
 
-            @Override
-            public void deliveryComplete(IMqttDeliveryToken token) {
-                // No action needed
-            }
-        });
+        Log.d("mqtt","published: we do not receive our own messages");
 
-        MqttConnectOptions mqttConnectOptions = new MqttConnectOptions();
-        mqttConnectOptions.setAutomaticReconnect(true);
-        mqttConnectOptions.setCleanSession(false);
 
+        // setup a latch to wait for 1 message
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
+        client.publishes(MqttGlobalPublishFilter.ALL, publish -> countDownLatch.countDown());
+
+
+        final Mqtt5BlockingClient client2 = Mqtt5Client.builder().serverHost("broker.hivemq.com").buildBlocking();
+        client2.connect();
+        client2.publishWith()
+                .topic("demo/topic/a")
+                .retain(true)
+                .userProperties()
+                .add("sender", "demo-sender-2")
+                .add("receiver", "you")
+                .applyUserProperties()
+                .send();
+        client2.disconnect();
+
+        Log.d("mqtt","client2 published: waiting for message to be received");
         try {
-            mqttAndroidClient.connect(mqttConnectOptions, null, new IMqttActionListener() {
-                @Override
-                public void onSuccess(IMqttToken asyncActionToken) {
-                    DisconnectedBufferOptions disconnectedBufferOptions = new DisconnectedBufferOptions();
-                    disconnectedBufferOptions.setBufferEnabled(true);
-                    disconnectedBufferOptions.setBufferSize(100);
-                    disconnectedBufferOptions.setPersistBuffer(false);
-                    disconnectedBufferOptions.setDeleteOldestMessages(false);
-                    mqttAndroidClient.setBufferOpts(disconnectedBufferOptions);
-                    subscribeToTopic();
-                }
-
-                @Override
-                public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                    addToHistory("Failed to connect to: " + serverUri);
-                }
-            });
-        } catch (MqttException ex) {
-            ex.printStackTrace();
+            countDownLatch.await();} catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
-    }
+        Log.d("mqtt","received message from client2: see the user property sender, also see that retain=true as requested");
 
-    private void addToHistory(String mainText) {
-        System.out.println("LOG: " + mainText);
-        mAdapter.add(mainText);
-        Snackbar.make(findViewById(android.R.id.content), mainText, Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+        client.toBlocking().disconnectWith()
+                .reasonCode(Mqtt5DisconnectReasonCode.DISCONNECT_WITH_WILL_MESSAGE) // send the will message
+                .sessionExpiryInterval(0)                                           // we want to clear the session
+                .send();
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        Log.d("mqtt","disconnected");
 
-        if (id == R.id.action_settings) {
-            // Handle the settings action
-            return true;
-        }
 
-        return super.onOptionsItemSelected(item);
-    }
-
-    public void subscribeToTopic() {
-        try {
-            mqttAndroidClient.subscribe(subscriptionTopic, 0, null, new IMqttActionListener() {
-                @Override
-                public void onSuccess(IMqttToken asyncActionToken) {
-                    addToHistory("Subscribed!");
-                }
-
-                @Override
-                public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                    addToHistory("Failed to subscribe");
-                }
-            });
-
-            // This works as well
-            mqttAndroidClient.subscribe(subscriptionTopic, 0, new IMqttMessageListener() {
-                @Override
-                public void messageArrived(String topic, MqttMessage message) throws Exception {
-                    // Message arrived!
-                    System.out.println("Message: " + topic + " : " + new String(message.getPayload()));
-                }
-            });
-        } catch (MqttException ex) {
-            System.err.println("Exception whilst subscribing");
-            ex.printStackTrace();
-        }
-    }
-
-    public void publishMessage() {
-        try {
-            MqttMessage message = new MqttMessage();
-            message.setPayload(publishMessage.getBytes());
-            mqttAndroidClient.publish(publishTopic, message);
-            addToHistory("Message Published");
-            if (!mqttAndroidClient.isConnected()) {
-                addToHistory(mqttAndroidClient.getBufferedMessageCount() + " messages in buffer.");
-            }
-        } catch (MqttException e) {
-            System.err.println("Error Publishing: " + e.getMessage());
-            e.printStackTrace();
-        }
+        System.exit(0);
     }
 }
