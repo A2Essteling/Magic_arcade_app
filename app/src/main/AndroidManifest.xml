@@ -23,6 +23,7 @@
         </activity>
 
         <activity android:name=".MainActivity" android:exported="true" />
+        <activity android:name=".cobra.CobraGameActivity"/>
     </application>
 
 </manifest>
