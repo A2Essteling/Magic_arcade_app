@@ -28,6 +28,7 @@ import com.hivemq.client.mqtt.mqtt5.Mqtt5BlockingClient;
 import com.hivemq.client.mqtt.mqtt5.Mqtt5Client;
 import com.hivemq.client.mqtt.mqtt5.message.connect.connack.Mqtt5ConnAck;
 import com.hivemq.client.mqtt.mqtt5.message.disconnect.Mqtt5DisconnectReasonCode;
+import com.hivemq.client.mqtt.mqtt5.message.publish.Mqtt5Publish;
 import com.hivemq.client.mqtt.mqtt5.message.subscribe.Mqtt5RetainHandling;
 import com.hivemq.client.mqtt.mqtt5.message.subscribe.suback.Mqtt5SubAck;
 
@@ -39,11 +40,9 @@ import java.util.concurrent.CountDownLatch;
  * @author Silvio Giebl
  */
 // @formatter:off
-public class Mqtt extends AppCompatActivity  {
+public class Mqtt  {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void init() {
         final Mqtt5AsyncClient client = Mqtt5Client.builder()
                 .serverHost("broker.hivemq.com")
                 .automaticReconnectWithDefaultConfig()
@@ -82,7 +81,7 @@ public class Mqtt extends AppCompatActivity  {
                 .noLocal(true)                                      // we do not want to receive our own message
                 .retainHandling(Mqtt5RetainHandling.DO_NOT_SEND)    // do not send retained messages
                 .retainAsPublished(true)                            // keep the retained flag as it was published
-                .callback(publish -> Log.d("mqtt","received message: " + publish))
+                .callback(publish -> sub(publish))
                 .send().join();
 
         Log.d("mqtt","subscribed " + subAck);
@@ -138,5 +137,6 @@ public class Mqtt extends AppCompatActivity  {
 
 
         System.exit(0);
-    }
+    } private static int sub(Mqtt5Publish publish) {
+    return Log.d("mqtt","received message: " + publish);}
 }

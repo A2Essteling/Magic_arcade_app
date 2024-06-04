@@ -16,9 +16,7 @@ import com.example.magicarcade.R;
 public class LoginActivity extends AppCompatActivity {
 
     private EditText editTextName;
-    private EditText editTextPhoneID;
     private Button buttonConnect;
-    private BluetoothAdapter bluetoothAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,10 +24,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         editTextName = findViewById(R.id.editTextName);
-        editTextPhoneID = findViewById(R.id.editTextPhoneID);
         buttonConnect = findViewById(R.id.buttonConnect);
-
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         buttonConnect.setOnClickListener(new View.OnClickListener() {
             @Override
