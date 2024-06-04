@@ -10,11 +10,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Name" />
+        android:text="Name"
+        android:textColor="@color/black"/>
 
     <TextView
         android:id="@+id/scoreTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Score" />
+        android:text="Score"
+        android:textColor="@color/black"/>
 </LinearLayout>
