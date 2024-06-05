@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+//        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         viewPager = findViewById(R.id.viewPager);
         tabLayout = findViewById(R.id.tabLayout);
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         viewPagerAdapter.addFragment(new QRFragment(), "QR");
         viewPagerAdapter.addFragment(new ScoreboardFragment(), "HighScore");
         viewPagerAdapter.addFragment(new VoucherFragment(), "Voucher");
-        viewPagerAdapter.addFragment(new ConnectFragment(), "Settings");
+//        viewPagerAdapter.addFragment(new ConnectFragment(), "Settings");
 
         viewPager.setAdapter(viewPagerAdapter);
 
