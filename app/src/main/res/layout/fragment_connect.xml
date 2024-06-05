@@ -6,46 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".fragments.ConnectFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/topWidget"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <TextView
-            android:id="@+id/appNameTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/app_name"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp" />
-
-        <ImageView
-            android:id="@+id/appLogoImageView"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:src="@drawable/magic_interactive_logo"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:contentDescription="@string/logo" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Settings Tab"
+        android:textColor="@color/black"
+        android:fontFamily="@font/verdana"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
