@@ -11,6 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="Name"
+        android:fontFamily="@font/verdana"
+        android:textSize="18sp"
         android:textColor="@color/black"/>
 
     <TextView
@@ -18,5 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Score"
+        android:fontFamily="@font/verdana"
+        android:textSize="18sp"
         android:textColor="@color/black"/>
 </LinearLayout>

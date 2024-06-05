@@ -12,8 +12,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/points_on_account"
-        android:textSize="18sp"
+        android:textSize="24sp"
         android:textColor="@color/black"
+        android:fontFamily="@font/georgia"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="102dp" />
@@ -26,6 +27,7 @@
         android:textSize="18sp"
         android:layout_marginTop="20dp"
         android:textColor="@color/black"
+        android:fontFamily="@font/verdana"
         app:layout_constraintTop_toBottomOf="@id/textViewPoints"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -62,7 +64,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/attraction_1"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/verdana"
                     android:textColor="@color/black"/>
 
                 <TextView
@@ -71,7 +74,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:text="@string/multiplier_x1"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/verdana"
                     android:textColor="@color/black"/>
 
             </FrameLayout>
@@ -98,7 +102,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/attraction_2"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/verdana"
                     android:textColor="@color/black"/>
 
                 <TextView
@@ -107,7 +112,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:text="@string/multiplier_x1"
-                    android:textSize="16sp" />
+                    android:textSize="18sp"
+                    android:fontFamily="@font/verdana"/>
 
             </FrameLayout>
 
@@ -133,7 +139,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/attraction_3"
                     android:textColor="@color/black"
-                    android:textSize="16sp" />
+                    android:textSize="18sp"
+                    android:fontFamily="@font/verdana"/>
 
                 <TextView
                     android:id="@+id/attraction3Multiplier"
@@ -142,7 +149,8 @@
                     android:layout_gravity="end"
                     android:text="@string/multiplier_x1"
                     android:textColor="@color/black"
-                    android:textSize="16sp" />
+                    android:textSize="18sp"
+                    android:fontFamily="@font/verdana"/>
 
             </FrameLayout>
 
@@ -167,7 +175,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/attraction_4"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/verdana"
                     android:textColor="@color/black"/>
 
                 <TextView
@@ -176,7 +185,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:text="@string/multiplier_x1"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/verdana"
                     android:textColor="@color/black"/>
 
             </FrameLayout>
@@ -202,7 +212,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/attraction_5"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/verdana"
                     android:textColor="@color/black"/>
 
                 <TextView
@@ -211,8 +222,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:text="@string/multiplier_x1"
-                    android:textSize="16sp"
-                    android:textColor="@color/black"/>
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/verdana"/>
 
             </FrameLayout>
 
@@ -237,7 +249,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/attraction_6"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/verdana"
                     android:textColor="@color/black"/>
 
                 <TextView
@@ -246,7 +259,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:text="@string/multiplier_x1"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/verdana"
                     android:textColor="@color/black"/>
 
             </FrameLayout>
