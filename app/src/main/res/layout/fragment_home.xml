@@ -7,17 +7,17 @@
     android:padding="16dp">
 
 
-    <TextView
-        android:id="@+id/textViewPoints"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/points_on_account"
-        android:textSize="24sp"
-        android:textColor="@color/black"
+    <ScrollView
+        android:layout_width="690dp"
+        android:layout_height="218dp"
         android:fontFamily="@font/georgia"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:text="@string/points_on_account"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.454"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="102dp" />
+        tools:layout_editor_absoluteY="176dp">
 
     <TextView
         android:id="@+id/textViewAttractions"
@@ -32,239 +32,291 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-
-    <LinearLayout
-        android:id="@+id/attractionsList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@id/textViewAttractions"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="10dp">
-
         <LinearLayout
+            android:id="@+id/attractionsList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
             android:layout_marginTop="8dp"
             android:clickable="true"
             android:focusable="true"
             android:textColor="@color/black"
             android:background="?attr/selectableItemBackground">
 
-            <FrameLayout
-                android:id="@+id/attraction1"
+            <TextView
+                android:id="@+id/textViewPoints"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="700px"
+                android:text="@string/points_on_account"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textViewAttractions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="700px"
+                android:layout_marginTop="4dp"
+                android:text="@string/list_of_attractions"
+                android:textSize="18sp" />
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/attraction_outline"
-                android:padding="8dp">
+                android:layout_marginTop="8dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <FrameLayout
+                    android:id="@+id/attraction1"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/attraction_outline"
+                    android:padding="8dp">
                     android:text="@string/attraction_1"
                     android:textSize="18sp"
                     android:fontFamily="@font/verdana"
                     android:textColor="@color/black"/>
 
-                <TextView
-                    android:id="@+id/attraction1Multiplier"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:text="@string/multiplier_x1"
-                    android:textSize="18sp"
-                    android:fontFamily="@font/verdana"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/attraction_1"
+                        android:textSize="16sp" />
                     android:textColor="@color/black"/>
+                    android:fontFamily="@font/verdana"
+                    android:textSize="18sp"
 
-            </FrameLayout>
+                    <TextView
+                        android:id="@+id/attraction1Multiplier"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:text="@string/multiplier_x1"
+                        android:textSize="16sp" />
 
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="8dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?attr/selectableItemBackground">
+                </FrameLayout>
 
-            <FrameLayout
-                android:id="@+id/attraction2"
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="vertical">
                 android:background="@drawable/attraction_outline"
                 android:padding="8dp"
                 android:textColor="@color/black">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <FrameLayout
+                    android:id="@+id/attraction2"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/attraction_outline"
+                    android:padding="8dp">
                     android:text="@string/attraction_2"
                     android:textSize="18sp"
                     android:fontFamily="@font/verdana"
                     android:textColor="@color/black"/>
 
-                <TextView
-                    android:id="@+id/attraction2Multiplier"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:text="@string/multiplier_x1"
-                    android:textSize="18sp"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/attraction_2"
+                        android:textSize="16sp" />
                     android:fontFamily="@font/verdana"/>
+                    android:textSize="18sp"
+                    android:text="@string/multiplier_x1"
 
-            </FrameLayout>
+                    <TextView
+                        android:id="@+id/attraction2Multiplier"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:text="@string/multiplier_x1"
+                        android:textSize="16sp" />
 
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="8dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?attr/selectableItemBackground">
+                </FrameLayout>
 
-            <FrameLayout
-                android:id="@+id/attraction3"
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/attraction_outline"
-                android:padding="8dp">
+                android:layout_marginTop="8dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <FrameLayout
+                    android:id="@+id/attraction3"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/attraction_outline"
+                    android:padding="8dp">
                     android:text="@string/attraction_3"
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     android:fontFamily="@font/verdana"/>
 
-                <TextView
-                    android:id="@+id/attraction3Multiplier"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:text="@string/multiplier_x1"
-                    android:textColor="@color/black"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/attraction_3"
+                        android:textSize="16sp" />
                     android:textSize="18sp"
                     android:fontFamily="@font/verdana"/>
+                    android:textColor="@color/black"
+                    android:text="@string/multiplier_x1"
 
-            </FrameLayout>
+                    <TextView
+                        android:id="@+id/attraction3Multiplier"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:text="@string/multiplier_x1"
+                        android:textSize="16sp" />
 
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="8dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?attr/selectableItemBackground">
+                </FrameLayout>
 
-            <FrameLayout
-                android:id="@+id/attraction4"
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/attraction_outline"
-                android:padding="8dp">
+                android:layout_marginTop="8dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <FrameLayout
+                    android:id="@+id/attraction4"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/attraction_outline"
+                    android:padding="8dp">
                     android:text="@string/attraction_4"
                     android:textSize="18sp"
                     android:fontFamily="@font/verdana"
                     android:textColor="@color/black"/>
 
-                <TextView
-                    android:id="@+id/attraction4Multiplier"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:text="@string/multiplier_x1"
-                    android:textSize="18sp"
-                    android:fontFamily="@font/verdana"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/attraction_4"
+                        android:textSize="16sp" />
                     android:textColor="@color/black"/>
+                    android:fontFamily="@font/verdana"
+                    android:textSize="18sp"
+                    android:text="@string/multiplier_x1"
 
-            </FrameLayout>
+                    <TextView
+                        android:id="@+id/attraction4Multiplier"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:text="@string/multiplier_x1"
+                        android:textSize="16sp" />
 
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="8dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?attr/selectableItemBackground">
+                </FrameLayout>
 
-            <FrameLayout
-                android:id="@+id/attraction5"
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/attraction_outline"
-                android:padding="8dp">
+                android:layout_marginTop="8dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <FrameLayout
+                    android:id="@+id/attraction5"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/attraction_outline"
+                    android:padding="8dp">
                     android:text="@string/attraction_5"
                     android:textSize="18sp"
                     android:fontFamily="@font/verdana"
                     android:textColor="@color/black"/>
 
-                <TextView
-                    android:id="@+id/attraction5Multiplier"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/attraction_5"
+                        android:textSize="16sp" />
                     android:text="@string/multiplier_x1"
                     android:textSize="18sp"
                     android:textColor="@color/black"
                     android:fontFamily="@font/verdana"/>
 
-            </FrameLayout>
+                    <TextView
+                        android:id="@+id/attraction5Multiplier"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:text="@string/multiplier_x1"
+                        android:textSize="16sp" />
 
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="8dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?attr/selectableItemBackground">
+                </FrameLayout>
 
-            <FrameLayout
-                android:id="@+id/attraction6"
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/attraction_outline"
-                android:padding="8dp">
+                android:layout_marginTop="8dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <FrameLayout
+                    android:id="@+id/attraction6"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/attraction_outline"
+                    android:padding="8dp">
                     android:text="@string/attraction_6"
                     android:textSize="18sp"
                     android:fontFamily="@font/verdana"
                     android:textColor="@color/black"/>
 
-                <TextView
-                    android:id="@+id/attraction6Multiplier"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/attraction_6"
+                        android:textSize="16sp" />
                     android:text="@string/multiplier_x1"
                     android:textSize="18sp"
                     android:fontFamily="@font/verdana"
                     android:textColor="@color/black"/>
 
-            </FrameLayout>
+                    <TextView
+                        android:id="@+id/attraction6Multiplier"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:text="@string/multiplier_x1"
+                        android:textSize="16sp" />
 
+                </FrameLayout>
+
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+    </ScrollView>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

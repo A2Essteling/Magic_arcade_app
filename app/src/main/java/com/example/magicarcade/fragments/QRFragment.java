@@ -13,9 +13,10 @@
     import androidx.fragment.app.Fragment;
 
     import com.example.magicarcade.R;
-    import com.example.magicarcade.cobra.CobraGameActivity;
-    import com.google.zxing.integration.android.IntentIntegrator;
     import com.google.zxing.integration.android.IntentResult;
+    import com.google.zxing.integration.android.IntentIntegrator;
+    import com.example.magicarcade.cobra.CobraGameActivity;
+import com.example.magicarcade.ZwevendeBelg.ZwevendeBelgGameActivity;
 
     public class QRFragment extends Fragment {
 
