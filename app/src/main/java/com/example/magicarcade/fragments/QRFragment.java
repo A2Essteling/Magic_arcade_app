@@ -61,7 +61,10 @@ import com.example.magicarcade.ZwevendeBelg.ZwevendeBelgGameActivity;
                 } else {
                     String qrCodeContent = result.getContents();
                     Log.d("qr", "Scanned QR code: " + qrCodeContent);
-                    if ("Cobra".equals(qrCodeContent)) {
+                    if ("Magic-arcade:Belg".equalsIgnoreCase(qrCodeContent)) {
+                        Intent intent = new Intent(getContext(), ZwevendeBelgGameActivity.class);
+                        startActivity(intent);
+                    } else if ("Magic-arcade:Cobra".equalsIgnoreCase(qrCodeContent)) {
                         Intent intent = new Intent(getContext(), CobraGameActivity.class);
                         startActivity(intent);
                     }
