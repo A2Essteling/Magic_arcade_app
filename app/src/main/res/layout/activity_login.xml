@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/lightBlue"
@@ -46,67 +47,72 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/textViewEnterName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/enter_name"
-        android:textSize="18sp"
-        android:layout_marginTop="20dp"
-        android:textColor="@color/black"
-        android:fontFamily="@font/verdana"
-        app:layout_constraintTop_toBottomOf="@id/topWidget"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="207dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@+id/topWidget">
 
-    <EditText
-        android:id="@+id/editTextName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:inputType="textPersonName"
-        android:textColor="@color/black"
-        android:fontFamily="@font/verdana"
-        android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@id/textViewEnterName"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textViewEnterPhoneID"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/enter_ID"
-        android:layout_marginTop="20dp"
-        android:textColor="@color/black"
-        android:fontFamily="@font/verdana"
-        android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@id/editTextName"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+            <TextView
+                android:id="@+id/textViewEnterName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/verdana"
+                android:text="@string/enter_name"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
 
-    <EditText
-        android:id="@+id/editTextPhoneID"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:inputType="text"
-        android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@id/textViewEnterPhoneID"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+            <EditText
+                android:id="@+id/editTextName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:fontFamily="@font/verdana"
+                android:inputType="textPersonName"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                tools:layout_editor_absoluteX="70dp"
+                tools:layout_editor_absoluteY="378dp" />
 
-    <Button
-        android:id="@+id/buttonConnect"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/connect"
-        android:layout_marginTop="30dp"
-        android:backgroundTint="@color/gray"
-        android:textColor="@color/black"
-        android:fontFamily="@font/verdana"
-        android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@id/editTextPhoneID"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+            <TextView
+                android:id="@+id/textViewEnterPhoneID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/verdana"
+                android:text="@string/enter_ID"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/editTextPhoneID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:inputType="text"
+                android:textColor="@color/black" />
+
+            <Button
+                android:id="@+id/buttonConnect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="30dp"
+                android:backgroundTint="@color/gray"
+                android:fontFamily="@font/verdana"
+                android:text="@string/connect"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,20 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="5dp">
 
 
     <ScrollView
-        android:layout_width="688dp"
-        android:layout_height="378dp"
-        android:fontFamily="@font/georgia"
-        android:text="@string/points_on_account"
-        android:textColor="@color/black"
-        android:textSize="24sp"
+        android:layout_width="match_parent"
+        android:layout_height="159dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.454"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/textViewPoints">
 
 
         <LinearLayout
@@ -30,22 +25,11 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <TextView
-                android:id="@+id/textViewPoints"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="700px"
-                android:layout_marginTop="8dp"
-                android:background="?attr/selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true"
-                android:text="@string/points_on_account"
-                android:textColor="@color/black"/>
-
-            <TextView
                 android:id="@+id/textViewAttractions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp"
                 android:fontFamily="@font/verdana"
                 android:text="@string/list_of_attractions"
                 android:textColor="@color/black"
@@ -57,6 +41,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="0dp"
                 android:layout_marginTop="8dp"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
@@ -73,6 +58,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="0dp"
                         android:fontFamily="@font/verdana"
                         android:text="@string/attraction_1"
                         android:textColor="@color/black"
@@ -83,6 +69,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
+                        android:layout_marginStart="0dp"
                         android:fontFamily="@font/verdana"
                         android:text="@string/multiplier_x1"
                         android:textColor="@color/black"
@@ -95,6 +82,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="0dp"
                 android:layout_marginTop="8dp"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
@@ -112,6 +100,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="0dp"
                         android:fontFamily="@font/verdana"
                         android:text="@string/attraction_2"
                         android:textColor="@color/black"
@@ -122,8 +111,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
+                        android:layout_marginStart="0dp"
                         android:fontFamily="@font/verdana"
                         android:text="@string/multiplier_x1"
+                        android:textColor="@color/black"
                         android:textSize="18sp" />
 
                 </FrameLayout>
@@ -133,6 +124,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="0dp"
                 android:layout_marginTop="8dp"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
@@ -149,6 +141,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="0dp"
                         android:fontFamily="@font/verdana"
                         android:text="@string/attraction_3"
                         android:textColor="@color/black"
@@ -159,6 +152,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
+                        android:layout_marginStart="0dp"
                         android:fontFamily="@font/verdana"
                         android:text="@string/multiplier_x1"
                         android:textColor="@color/black"
@@ -171,6 +165,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="0dp"
                 android:layout_marginTop="8dp"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
@@ -187,6 +182,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="0dp"
                         android:fontFamily="@font/verdana"
                         android:text="@string/attraction_4"
                         android:textColor="@color/black"
@@ -197,6 +193,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
+                        android:layout_marginStart="0dp"
                         android:fontFamily="@font/verdana"
                         android:text="@string/multiplier_x1"
                         android:textColor="@color/black"
@@ -209,6 +206,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="0dp"
                 android:layout_marginTop="8dp"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
@@ -225,6 +223,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="0dp"
                         android:fontFamily="@font/verdana"
                         android:text="@string/attraction_5"
                         android:textColor="@color/black"
@@ -235,6 +234,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
+                        android:layout_marginStart="0dp"
                         android:fontFamily="@font/verdana"
                         android:text="@string/multiplier_x1"
                         android:textColor="@color/black"
@@ -247,6 +247,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="0dp"
                 android:layout_marginTop="8dp"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
@@ -257,12 +258,14 @@
                     android:id="@+id/attraction6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
                     android:background="@drawable/attraction_outline"
                     android:padding="8dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="0dp"
                         android:fontFamily="@font/verdana"
                         android:text="@string/attraction_6"
                         android:textColor="@color/black"
@@ -273,6 +276,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
+                        android:layout_marginStart="0dp"
                         android:fontFamily="@font/verdana"
                         android:text="@string/multiplier_x1"
                         android:textColor="@color/black"
@@ -283,6 +287,23 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
+
+    <TextView
+        android:id="@+id/textViewPoints"
+        android:layout_width="285dp"
+        android:layout_height="39dp"
+        android:layout_marginTop="0dp"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:fontFamily="@font/georgia"
+        android:text="@string/points_on_account"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
