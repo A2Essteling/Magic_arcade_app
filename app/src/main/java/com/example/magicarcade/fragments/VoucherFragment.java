@@ -133,7 +133,7 @@ public class VoucherFragment extends Fragment {
 
     private void updatePointsText() {
         if (pointsTextView != null) {
-            pointsTextView.setText(getString(R.string.points_on_account) + ": " + Profile.getPoints());
+            pointsTextView.setText(getString(R.string.points_on_account) + " " + Profile.getPoints());
         }
     }
 
