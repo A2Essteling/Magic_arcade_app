@@ -13,8 +13,9 @@
         android:theme="@style/Theme.MagicArcade"
         tools:targetApi="31">
         <activity
-            android:name=".LoginActivity"
+            android:name=".ZwevendeBelg.ZwevendeBelgGameActivity"
             android:exported="true">
+            <!--            name: .LoginActivity-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,8 +23,8 @@
             </intent-filter>
         </activity>
 
-<!--        <activity android:name=".ZwevendeBelg.ZwevendeBelgGameActivity" />-->
         <activity android:name=".MainActivity" android:exported="true" />
+<!--        <activity android:name=".ZwevendeBelg.ZwevendeBelgGameActivity" />-->
         <activity android:name=".cobra.CobraGameActivity"/>
     </application>
 
