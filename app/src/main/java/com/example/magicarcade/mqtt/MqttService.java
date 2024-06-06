@@ -53,6 +53,7 @@ public class MqttService extends Service {
         new Thread(() -> {
             client = Mqtt5Client.builder()
                     .serverHost("broker.hivemq.com")
+                    .serverPort(1883)
                     .automaticReconnectWithDefaultConfig()
                     .buildAsync();
 
@@ -70,7 +71,7 @@ public class MqttService extends Service {
                         .sendTopicAliasMaximum(8)
                         .applyRestrictions()
                         .willPublish()
-                        .topic("demo/topic/will")
+                        .topic("magic/topic/will")
                         .qos(MqttQos.EXACTLY_ONCE)
                         .payload("rip".getBytes())
                         .contentType("text/plain")
