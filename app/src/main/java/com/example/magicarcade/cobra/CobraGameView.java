@@ -120,6 +120,12 @@ public class CobraGameView extends View {
         food = new Coordinate(x, y);
     }
 
+    public void setDirection(int direction) {
+        if (Math.abs(this.direction - direction) != 2) {
+            this.direction = direction;
+        }
+    }
+
     private final Runnable moveSnakeRunnable = new Runnable() {
         @Override
         public void run() {
@@ -127,9 +133,5 @@ public class CobraGameView extends View {
         }
     };
 
-    public void setDirection(int direction) {
-        if (Math.abs(this.direction - direction) != 2) {
-            this.direction = direction;
-        }
-    }
+
 }

@@ -1,4 +1,4 @@
-package com.example.magicarcade.ZwevendeBelg;
+package com.example.magicarcade.zwevendeBelg;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -12,17 +12,21 @@ import android.view.SurfaceView;
 import com.example.magicarcade.R;
 
 public class ZwevendeBelgGameView extends SurfaceView implements Runnable {
+    private final SurfaceHolder holder;
+    private final Bitmap birdDown;
+    private final Bitmap birdUp;
+    private final Bitmap birdStationary;
+    private final Paint paint;
+    private final int birdX;
+    private final Bitmap pipeTop;
+    private final Bitmap pipeBottom;
+    private final int pipeSpeedX;
     private Thread gameThread = null;
-    private SurfaceHolder holder;
     private volatile boolean running = false;
-    private Bitmap birdDown, birdUp, birdStationary;
     private Bitmap currentBird;
-    private Paint paint;
-    private int birdX, birdY;
+    private int birdY;
     private int birdSpeedY;
-    private Bitmap pipeTop, pipeBottom;
     private int pipeX, pipeY;
-    private int pipeSpeedX;
 
     public ZwevendeBelgGameView(Context context) {
         super(context);

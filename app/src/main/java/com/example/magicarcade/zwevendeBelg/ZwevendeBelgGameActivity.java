@@ -1,7 +1,8 @@
-package com.example.magicarcade.ZwevendeBelg;
+package com.example.magicarcade.zwevendeBelg;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class ZwevendeBelgGameActivity extends AppCompatActivity {

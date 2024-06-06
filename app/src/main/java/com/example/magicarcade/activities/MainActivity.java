@@ -1,10 +1,8 @@
 package com.example.magicarcade.activities;
 
-import android.annotation.SuppressLint;
-import android.content.pm.ActivityInfo;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
@@ -48,9 +46,7 @@ public class MainActivity extends AppCompatActivity {
                 (tab, position) -> tab.setText(viewPagerAdapter.getPageTitle(position))
         ).attach();
 
-        // Start the MQTT service
-        Intent mqttServiceIntent = new Intent(this, MqttService.class);
-        startService(mqttServiceIntent);
+
     }
 
     @Override

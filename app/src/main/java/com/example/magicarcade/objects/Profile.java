@@ -1,13 +1,16 @@
 package com.example.magicarcade.objects;
 
+import com.example.magicarcade.Voucher;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Profile {
+    private static final List<Voucher> vouchers = new ArrayList<>();
     private static String id;
     private static int points;
     private static int highScore;
-    private static List<Voucher> vouchers = new ArrayList<>();
+    private static Controller controller = new Controller();
 
     public static String getUserID() {
         return id;
@@ -39,5 +42,13 @@ public class Profile {
 
     public static void addVoucher(Voucher voucher) {
         vouchers.add(voucher);
+    }
+
+    public static void setControllerID(int id) {
+        controller.setID(id);
+    }
+
+    public static Controller getController() {
+        return controller;
     }
 }

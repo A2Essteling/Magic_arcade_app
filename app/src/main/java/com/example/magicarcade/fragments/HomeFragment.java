@@ -11,12 +11,13 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.magicarcade.objects.Profile;
 import com.example.magicarcade.R;
+import com.example.magicarcade.objects.Profile;
 
 public class HomeFragment extends Fragment {
 
     private TextView pointsTextView;
+
     public HomeFragment() {
 
     }

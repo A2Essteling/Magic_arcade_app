@@ -7,19 +7,30 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.example.magicarcade.activities.LoginActivity;
+import com.example.magicarcade.objects.Controller;
+import com.example.magicarcade.objects.Profile;
 import com.hivemq.client.mqtt.datatypes.MqttQos;
 import com.hivemq.client.mqtt.mqtt5.Mqtt5AsyncClient;
 import com.hivemq.client.mqtt.mqtt5.Mqtt5Client;
+import com.hivemq.client.mqtt.mqtt5.exceptions.Mqtt5ConnAckException;
+import com.hivemq.client.mqtt.mqtt5.message.connect.connack.Mqtt5ConnAck;
 import com.hivemq.client.mqtt.mqtt5.message.publish.Mqtt5Publish;
 import com.hivemq.client.mqtt.mqtt5.message.subscribe.Mqtt5RetainHandling;
-import com.hivemq.client.mqtt.mqtt5.message.connect.connack.Mqtt5ConnAck;
-import com.hivemq.client.mqtt.mqtt5.exceptions.Mqtt5ConnAckException;
+import com.hivemq.client.mqtt.mqtt5.message.disconnect.Mqtt5DisconnectReasonCode;
 
 public class MqttService extends Service {
 
     private static final String TAG = "MqttService";
-    private static Mqtt5AsyncClient client;
     private static final String baseTopic = "magic";
+    private static Mqtt5AsyncClient client;
+    private static boolean isConnected = false;
+
+
+
+    public static boolean getState() {
+        return isConnected;
+    }
 
     @Override
     public void onCreate() {
@@ -38,8 +49,11 @@ public class MqttService extends Service {
     public void onDestroy() {
         Log.d(TAG, "Service onDestroy");
         if (client != null) {
-            client.toBlocking().disconnect();
+            client.toBlocking().disconnectWith()
+                    .reasonCode(Mqtt5DisconnectReasonCode.NORMAL_DISCONNECTION)
+                    .send();
         }
+        isConnected = false;
         super.onDestroy();
     }
 
@@ -66,10 +80,11 @@ public class MqttService extends Service {
                         .send();
 
                 Log.d(TAG, "Connected: " + connAck);
+                isConnected = true;
 
                 Log.d(TAG, "Subscribing to topic...");
                 client.subscribeWith()
-                        .topicFilter(baseTopic +"/#")
+                        .topicFilter(baseTopic + "/#")
                         .noLocal(true)
                         .retainHandling(Mqtt5RetainHandling.DO_NOT_SEND)
                         .retainAsPublished(true)
@@ -78,12 +93,12 @@ public class MqttService extends Service {
 
                 Log.d(TAG, "Subscribed");
 
-
-
             } catch (Mqtt5ConnAckException e) {
                 Log.e(TAG, "Connection failed: " + e.getMqttMessage(), e);
+                isConnected = false;
             } catch (Exception e) {
                 Log.e(TAG, "Error initializing MQTT client", e);
+                isConnected = false;
             }
 
         }).start();
@@ -91,12 +106,16 @@ public class MqttService extends Service {
 
     private void onMessageReceived(Mqtt5Publish publish) {
         Log.d(TAG, "Received message: " + new String(publish.getPayloadAsBytes()));
-        Log.d(TAG, "Received topic: " + new String(publish.getTopic().toString()));
+        Log.d(TAG, "Received topic: " + publish.getTopic().toString());
+        if (publish.getTopic().toString().equals(baseTopic + "/" + Profile.getController().getID() + "/button1")) {
+            Controller controller = new Controller();
+            controller.getID();
+        }
     }
-    public static void publishMsg(String topic,String msg){
+    public static void publishMsg(String topic, String msg) {
         Log.d(TAG, "Publishing message...");
         client.toBlocking().publishWith()
-                .topic(baseTopic +"/"+topic)
+                .topic(baseTopic + "/" + topic)
                 .qos(MqttQos.EXACTLY_ONCE)
                 .payload(msg.getBytes())
                 .retain(true)
