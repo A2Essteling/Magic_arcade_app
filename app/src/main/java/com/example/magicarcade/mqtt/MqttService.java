@@ -18,7 +18,8 @@ import com.hivemq.client.mqtt.mqtt5.exceptions.Mqtt5ConnAckException;
 public class MqttService extends Service {
 
     private static final String TAG = "MqttService";
-    private Mqtt5AsyncClient client;
+    private static Mqtt5AsyncClient client;
+    private static final String baseTopic = "magic";
 
     @Override
     public void onCreate() {
@@ -62,29 +63,13 @@ public class MqttService extends Service {
                 Mqtt5ConnAck connAck = client.toBlocking().connectWith()
                         .cleanStart(false)
                         .sessionExpiryInterval(30)
-                        .restrictions()
-                        .receiveMaximum(10)
-                        .sendMaximum(10)
-                        .maximumPacketSize(10_240)
-                        .sendMaximumPacketSize(10_240)
-                        .topicAliasMaximum(0)
-                        .sendTopicAliasMaximum(8)
-                        .applyRestrictions()
-                        .willPublish()
-                        .topic("magic/topic/will")
-                        .qos(MqttQos.EXACTLY_ONCE)
-                        .payload("rip".getBytes())
-                        .contentType("text/plain")
-                        .messageExpiryInterval(120)
-                        .delayInterval(30)
-                        .applyWillPublish()
                         .send();
 
                 Log.d(TAG, "Connected: " + connAck);
 
                 Log.d(TAG, "Subscribing to topic...");
                 client.subscribeWith()
-                        .topicFilter("demo/topic/a")
+                        .topicFilter(baseTopic +"/#")
                         .noLocal(true)
                         .retainHandling(Mqtt5RetainHandling.DO_NOT_SEND)
                         .retainAsPublished(true)
@@ -93,21 +78,7 @@ public class MqttService extends Service {
 
                 Log.d(TAG, "Subscribed");
 
-                Log.d(TAG, "Publishing message...");
-                client.toBlocking().publishWith()
-                        .topic("demo/topic/a")
-                        .qos(MqttQos.EXACTLY_ONCE)
-                        .payload("payload".getBytes())
-                        .retain(true)
-                        .contentType("text/plain")
-                        .messageExpiryInterval(120)
-                        .userProperties()
-                        .add("sender", "demo-sender-1")
-                        .add("receiver", "you")
-                        .applyUserProperties()
-                        .send();
 
-                Log.d(TAG, "Message published");
 
             } catch (Mqtt5ConnAckException e) {
                 Log.e(TAG, "Connection failed: " + e.getMqttMessage(), e);
@@ -120,5 +91,18 @@ public class MqttService extends Service {
 
     private void onMessageReceived(Mqtt5Publish publish) {
         Log.d(TAG, "Received message: " + new String(publish.getPayloadAsBytes()));
+        Log.d(TAG, "Received topic: " + new String(publish.getTopic().toString()));
+    }
+    public static void publishMsg(String topic,String msg){
+        Log.d(TAG, "Publishing message...");
+        client.toBlocking().publishWith()
+                .topic(baseTopic +"/"+topic)
+                .qos(MqttQos.EXACTLY_ONCE)
+                .payload(msg.getBytes())
+                .retain(true)
+                .contentType("text/plain")
+                .send();
+
+        Log.d(TAG, "Message published");
     }
 }
