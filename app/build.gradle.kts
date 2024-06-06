@@ -26,10 +26,12 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+    packagingOptions {
+        resources.excludes.add("META-INF/*")
+    }
 }
 
 dependencies {
-
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
@@ -39,4 +41,5 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
 //    implementation(libs.core)
     implementation(libs.zxing.android.embedded)
+    implementation(libs.hivemq.mqtt.client)
 }

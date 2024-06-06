@@ -1,22 +1,27 @@
-package com.example.magicarcade;
+package com.example.magicarcade.activities;
 
 import android.app.AlertDialog;
-import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.magicarcade.R;
+import com.example.magicarcade.mqtt.MqttService;
+import com.example.magicarcade.objects.Profile;
+
 public class LoginActivity extends AppCompatActivity {
 
     private EditText editTextName;
     private EditText editTextPhoneID;
     private Button buttonConnect;
-    private BluetoothAdapter bluetoothAdapter;
+
+    private static final String TAG = "LoginActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,26 +34,45 @@ public class LoginActivity extends AppCompatActivity {
         editTextPhoneID = findViewById(R.id.editTextPhoneID);
         buttonConnect = findViewById(R.id.buttonConnect);
 
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-
+        startMqttService();
         buttonConnect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 connectToBluetoothDevice();
             }
         });
+
+
+    }
+    private void startMqttService() {
+        Log.d(TAG, "Starting MqttService");
+        Intent serviceIntent = new Intent(this, MqttService.class);
+        startService(serviceIntent);
+    }
+
+    // Handle login logic and navigate to MainActivity
+    private void onLoginSuccess() {
+        Intent mainIntent = new Intent(this, MainActivity.class);
+        startActivity(mainIntent);
+        finish();
     }
 
     private void connectToBluetoothDevice() {
-        boolean isConnected = true;
-
+        boolean isConnected = MqttService.getState();
         if (isConnected) {
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             String name = editTextName.getText().toString();
-            startActivity(intent);
+            int ID = Integer.parseInt(editTextPhoneID.getText().toString());
+            MqttService.subscribe(editTextPhoneID.getText().toString()+"/#");
+
+            // Set profile information
             Profile.setUserID(name);
+            Profile.setControllerID(ID);
             Profile.setPoints(200);
             Profile.setHighScore(0);
+
+            // Navigate to MainActivity
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
         } else {
             new AlertDialog.Builder(LoginActivity.this)
                     .setTitle("Connection Failed")

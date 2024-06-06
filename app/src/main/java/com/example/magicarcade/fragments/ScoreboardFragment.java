@@ -8,22 +8,21 @@ import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.magicarcade.PlayerScore;
 import com.example.magicarcade.R;
-import com.example.magicarcade.ScoreAdapter;
+import com.example.magicarcade.adapters.ScoreAdapter;
+import com.example.magicarcade.objects.PlayerScore;
+import com.example.magicarcade.objects.Profile;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import com.example.magicarcade.Profile;
-
 public class ScoreboardFragment extends Fragment {
 
+    private final List<PlayerScore> scoreList = new ArrayList<>();
     private ListView highScoreListView;
     private ScoreAdapter scoreAdapter;
-    private List<PlayerScore> scoreList = new ArrayList<>();
 
     public ScoreboardFragment() {
 
