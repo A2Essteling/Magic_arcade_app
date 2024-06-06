@@ -1,5 +1,6 @@
 package com.example.magicarcade.ZwevendeBelg;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,6 +11,8 @@ public class ZwevendeBelgGameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         gameView = new ZwevendeBelgGameView(this);
+
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(gameView);
     }
 

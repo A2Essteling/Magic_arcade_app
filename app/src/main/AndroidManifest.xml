@@ -22,8 +22,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ZwevendeBelg.ZwevendeBelgGameActivity" />
+<!--        <activity android:name=".ZwevendeBelg.ZwevendeBelgGameActivity" />-->
         <activity android:name=".MainActivity" android:exported="true" />
+        <activity android:name=".cobra.CobraGameActivity"/>
     </application>
 
 </manifest>
