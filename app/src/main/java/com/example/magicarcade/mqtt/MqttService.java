@@ -8,6 +8,7 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.example.magicarcade.objects.Controller;
 import com.example.magicarcade.objects.Profile;
 import com.hivemq.client.mqtt.datatypes.MqttQos;
 import com.hivemq.client.mqtt.mqtt5.Mqtt5AsyncClient;
@@ -107,10 +108,23 @@ public class MqttService extends Service {
     }
 
     private static void onMessageReceived(Mqtt5Publish publish) {
-        Log.d(TAG, "Received message: " + new String(publish.getPayloadAsBytes()));
-        Log.d(TAG, "Received topic: " + publish.getTopic().toString());
-        if (publish.getTopic().toString().equals(baseTopic + "/" + Profile.getController().getID() + "/button1")) {
+//        Log.d(TAG, "Received message: " + new String(publish.getPayloadAsBytes()));
+//        Log.d(TAG, "Received topic: " + publish.getTopic().toString());
+        Controller controller = Profile.getController();
+        String payload = new String(publish.getPayloadAsBytes());
+        String topic = publish.getTopic().toString();
+        if (topic.equals(baseTopic + "/" + Profile.getController().getID() + "/button1")) {
+            controller.setButton_1(payload.equals("1"));
+        } else if (topic.equals(baseTopic + "/" + Profile.getController().getID() + "/button2")) {
+            controller.setButton_2(payload.equals("1"));
+        } else if (topic.equals(baseTopic + "/" + Profile.getController().getID() + "/joystickButton")) {
+            controller.setButton_joy(payload.equals("1"));
+        } else if (topic.equals(baseTopic + "/" + Profile.getController().getID() + "/joystickX")) {
+            controller.setJoy_x(Integer.parseInt(payload));
+        } else if (topic.equals(baseTopic + "/" + Profile.getController().getID() + "/joystickY")) {
+            controller.setJoy_y(Integer.parseInt(payload));
         }
+        Log.d(TAG,controller.toString());
     }
 
     public static void subscribe(String topic) {

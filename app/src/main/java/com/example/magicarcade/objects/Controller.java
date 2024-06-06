@@ -55,4 +55,16 @@ public class Controller {
     public void setID(int ID) {
         this.ID = ID;
     }
+
+    @Override
+    public String toString() {
+        return "Controller{" +
+                "ID=" + ID +
+                ", joy_x=" + joy_x +
+                ", joy_y=" + joy_y +
+                ", button_joy=" + button_joy +
+                ", button_1=" + button_1 +
+                ", button_2=" + button_2 +
+                '}';
+    }
 }
