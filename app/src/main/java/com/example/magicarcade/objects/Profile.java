@@ -4,19 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Profile {
-    private static String userID;
+    private static String id;
     private static int points;
     private static int highScore;
-    private static List<String> vouchers = new ArrayList<>();
-
-    private Profile() {}
+    private static List<Voucher> vouchers = new ArrayList<>();
 
     public static String getUserID() {
-        return userID;
+        return id;
     }
 
-    public static void setId(String userID) {
-        Profile.userID = userID;
+    public static void setUserID(String id) {
+        Profile.id = id;
     }
 
     public static int getPoints() {
@@ -35,15 +33,11 @@ public class Profile {
         Profile.highScore = highScore;
     }
 
-    public static List<String> getVouchers() {
+    public static List<Voucher> getVouchers() {
         return vouchers;
     }
 
-    public static void addVoucher(String voucher) {
-        Profile.vouchers.add(voucher);
-    }
-
-    public static void clearVouchers() {
-        Profile.vouchers.clear();
+    public static void addVoucher(Voucher voucher) {
+        vouchers.add(voucher);
     }
 }

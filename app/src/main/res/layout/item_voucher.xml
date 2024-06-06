@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp"
+    android:background="@color/lightGray">
+
+    <ImageView
+        android:id="@+id/voucherImageView"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="8dp"
+        android:contentDescription="@string/voucher_image" />
+
+    <TextView
+        android:id="@+id/voucherNameTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fontFamily="@font/verdana"
+        android:textSize="18sp"
+        android:textColor="@color/black"/>
+
+</LinearLayout>
