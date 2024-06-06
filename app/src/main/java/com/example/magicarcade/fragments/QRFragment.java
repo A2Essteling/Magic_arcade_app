@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.magicarcade.R;
 import com.example.magicarcade.cobra.CobraGameActivity;
+import com.example.magicarcade.zwevendeBelg.ZwevendeBelgGameActivity;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -50,34 +51,24 @@ public class QRFragment extends Fragment {
         integrator.initiateScan();
     }
 
-        @Override
-        public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-            super.onActivityResult(requestCode, resultCode, data);
-            IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-            if (result != null) {
-                if (result.getContents() == null) {
-                    Log.d("qr", "Cancelled scan");
-                } else {
-                    String qrCodeContent = result.getContents();
-                    Log.d("qr", "Scanned QR code: " + qrCodeContent);
-                    if ("Magic-arcade:Belg".equalsIgnoreCase(qrCodeContent)) {
-                        Intent intent = new Intent(getContext(), ZwevendeBelgGameActivity.class);
-                        startActivity(intent);
-                    } else if ("Magic-arcade:Cobra".equalsIgnoreCase(qrCodeContent)) {
-                        Intent intent = new Intent(getContext(), CobraGameActivity.class);
-                        startActivity(intent);
-                    }
-                }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (result != null) {
+            if (result.getContents() == null) {
+                Log.d("qr", "Cancelled scan");
             } else {
                 String qrCodeContent = result.getContents();
                 Log.d("qr", "Scanned QR code: " + qrCodeContent);
-                if ("Cobra".equals(qrCodeContent)) {
+                if ("Magic-arcade:Belg".equalsIgnoreCase(qrCodeContent)) {
+                    Intent intent = new Intent(getContext(), ZwevendeBelgGameActivity.class);
+                    startActivity(intent);
+                } else if ("Magic-arcade:Cobra".equalsIgnoreCase(qrCodeContent)) {
                     Intent intent = new Intent(getContext(), CobraGameActivity.class);
                     startActivity(intent);
                 }
             }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
         }
     }
 }
