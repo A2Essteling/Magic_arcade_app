@@ -1,4 +1,4 @@
-package com.example.magicarcade;
+package com.example.magicarcade.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.example.magicarcade.R;
+import com.example.magicarcade.objects.PlayerScore;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.example.magicarcade;
+package com.example.magicarcade.adapters;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

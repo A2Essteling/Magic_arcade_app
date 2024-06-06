@@ -1,9 +1,9 @@
 package com.example.magicarcade;
 
 public class Voucher {
-    private String name;
-    private int cost;
-    private int imageResId;
+    private final String name;
+    private final int cost;
+    private final int imageResId;
 
     public Voucher(String name, int cost, int imageResId) {
         this.name = name;
