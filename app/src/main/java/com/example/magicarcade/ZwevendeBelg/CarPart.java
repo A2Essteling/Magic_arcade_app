@@ -7,32 +7,21 @@ import android.graphics.Paint;
 public class CarPart {
 
     private Bitmap image;
-    private int pipeX;
-    private int pipeY;
+    private int partX;
+    private int partY;
 
-    public CarPart(Bitmap pipeImage, int pipeX, int pipeY){
+    // TODO: Implement this class somewhere else?
+    public CarPart(Bitmap pipeImage, int partX, int partY){
         this.image = pipeImage;
-        this.pipeX = pipeX;
-        this.pipeY = pipeY;
-    }
-
-    public Bitmap getImage(){
-        return this.image;
-    }
-
-    public int getPipeX(){
-        return this.pipeX;
-    }
-
-    public int getPipeY(){
-        return this.pipeY;
+        this.partX = partX;
+        this.partY = partY;
     }
 
     public void draw(Canvas canvas, Paint paint){
-        canvas.drawBitmap(this.image, this.pipeX, this.pipeY, paint);
+        canvas.drawBitmap(this.image, this.partX, this.partY, paint);
     }
 
-    public void update(int pipeX){
-        this.pipeX -= pipeX;
+    public void update(int newPartX){
+        this.partX = newPartX;
     }
 }
