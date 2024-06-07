@@ -4,13 +4,13 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
-public class PipePart {
+public class CarPart {
 
     private Bitmap image;
     private int pipeX;
     private int pipeY;
 
-    public PipePart(Bitmap pipeImage, int pipeX, int pipeY){
+    public CarPart(Bitmap pipeImage, int pipeX, int pipeY){
         this.image = pipeImage;
         this.pipeX = pipeX;
         this.pipeY = pipeY;

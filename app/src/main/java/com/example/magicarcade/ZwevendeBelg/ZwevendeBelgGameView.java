@@ -14,7 +14,6 @@ import androidx.core.content.ContextCompat;
 import com.example.magicarcade.R;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class ZwevendeBelgGameView extends SurfaceView implements Runnable {
     // Sprites have a width of 16 and a height of 10
@@ -23,7 +22,7 @@ public class ZwevendeBelgGameView extends SurfaceView implements Runnable {
     private SurfaceHolder holder;
     private volatile boolean running = false;
     private Bitmap belgDown, belgUp, belgStationary;
-    private Bitmap pipeTopBack, pipeTopMiddle, pipeTopFront, pipeBottomBack, pipeBottomMiddle, pipeBottomFront;
+    private Bitmap carTopBack, carTopMiddle, carTopFront, carBottomBack, carBottomMiddle, carBottomFront;
     private Bitmap currentBird;
     private int imageHeight;
     private int imageWidth;
@@ -32,12 +31,12 @@ public class ZwevendeBelgGameView extends SurfaceView implements Runnable {
     private int screenHeight;
     private int belgX, belgY;
     private double belgSpeedY;
-    private int pipeX, pipeY;
-    private int pipeSpeedX;
-    private int prevPipeSpawnTime;
-    private int pipeSpawnTime;
+    private int carX, carY;
+    private int carSpeedX;
+    private int prevCarSpawnTime;
+    private int carSpawnTime;
     private int dayNightCycle;
-    private ArrayList<PipeRow> pipes = new ArrayList<>();
+    private ArrayList<CarRow> cars = new ArrayList<>();
     private Color theColor = Color.valueOf(ContextCompat.getColor(getContext(), R.color.lightBlue));
 
     public ZwevendeBelgGameView(Context context) {
@@ -61,21 +60,21 @@ public class ZwevendeBelgGameView extends SurfaceView implements Runnable {
         screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels-110;
         gapHeight = 500;
 
-        pipeSpawnTime = 50;
-        prevPipeSpawnTime = 100;
+        carSpawnTime = 50;
+        prevCarSpawnTime = 100;
         dayNightCycle = 0;
 
-        pipeTopBack = BitmapFactory.decodeResource(getResources(), R.drawable.car_top_back_red);
-        pipeTopMiddle = BitmapFactory.decodeResource(getResources(), R.drawable.car_top_middle_red);
-        pipeTopFront = BitmapFactory.decodeResource(getResources(), R.drawable.car_top_front_red);
+        carTopBack = BitmapFactory.decodeResource(getResources(), R.drawable.car_top_back_red);
+        carTopMiddle = BitmapFactory.decodeResource(getResources(), R.drawable.car_top_middle_red);
+        carTopFront = BitmapFactory.decodeResource(getResources(), R.drawable.car_top_front_red);
 
-        pipeBottomFront = BitmapFactory.decodeResource(getResources(), R.drawable.car_bottom_front_red);
-        pipeBottomMiddle = BitmapFactory.decodeResource(getResources(), R.drawable.car_bottom_middle_red);
-        pipeBottomBack = BitmapFactory.decodeResource(getResources(), R.drawable.car_bottom_back_red);
+        carBottomFront = BitmapFactory.decodeResource(getResources(), R.drawable.car_bottom_front_red);
+        carBottomMiddle = BitmapFactory.decodeResource(getResources(), R.drawable.car_bottom_middle_red);
+        carBottomBack = BitmapFactory.decodeResource(getResources(), R.drawable.car_bottom_back_red);
 
-        pipeX = screenWidth+100;
-        pipeY = (int) (Math.random() * (screenHeight-(gapHeight+(imageHeight*2))) + (imageHeight*2));
-        pipeSpeedX = -5;
+        carX = screenWidth+100;
+        carY = (int) (Math.random() * (screenHeight-(gapHeight+(imageHeight*2))) + (imageHeight*2));
+        carSpeedX = -5;
     }
 
     @Override
@@ -101,33 +100,33 @@ public class ZwevendeBelgGameView extends SurfaceView implements Runnable {
     }
 
     private void update() {
-        pipeX += pipeSpeedX;
+        carX += carSpeedX;
 
         setBelgImage();
         checkCollision();
         setDayNightCycle();
 
-        // Update piperows
-        for (PipeRow pipeRow : pipes) {
-            pipeRow.update(pipeX);
+        // Update carrows
+        for (CarRow carRow : cars) {
+            carRow.update(carX);
         }
 
         // Timers and adjustable values
-        if (pipeSpawnTime <= 0 || pipeX <= -pipeTopMiddle.getWidth()){
-            pipeX = getWidth();
-            pipeY = (int) (Math.random() * (screenHeight-(gapHeight+(imageHeight*2))) + (imageHeight*2));
+        if (carSpawnTime <= 0 || carX <= -carTopMiddle.getWidth()){
+            carX = getWidth();
+            carY = (int) (Math.random() * (screenHeight-(gapHeight+(imageHeight*2))) + (imageHeight*2));
 
-            PipeRow row = new PipeRow(pipeX, pipeY);
-            row.generatePipeRowImages(pipeTopBack, pipeTopMiddle, pipeTopFront, pipeBottomFront, pipeBottomMiddle, pipeBottomFront,
+            CarRow row = new CarRow(carX, carY);
+            row.generatePipeRowImages(carTopBack, carTopMiddle, carTopFront, carBottomFront, carBottomMiddle, carBottomFront,
                                       imageHeight, gapHeight, screenHeight);
-            pipes.add(row);
+            cars.add(row);
 
             // Make game more difficult
-            pipeSpeedX += 1;
+            carSpeedX += 1;
             gapHeight -= 5;
-            pipeSpawnTime = prevPipeSpawnTime-10;
+            carSpawnTime = prevCarSpawnTime -10;
         }
-        pipeSpawnTime-=1;
+        carSpawnTime -=1;
     }
 
     public void draw(Canvas canvas) {
@@ -139,9 +138,9 @@ public class ZwevendeBelgGameView extends SurfaceView implements Runnable {
             // Draw belg
             canvas.drawBitmap(currentBird, belgX, belgY, paint);
 
-            // Draw pipes
-            for (PipeRow pipeRow : pipes) {
-                pipeRow.drawPipes(canvas, paint);
+            // Draw cars
+            for (CarRow carRow : cars) {
+                carRow.drawPipes(canvas, paint);
             }
         }
     }
@@ -192,17 +191,17 @@ public class ZwevendeBelgGameView extends SurfaceView implements Runnable {
         if (belgY <= 0 || belgY >= screenHeight){
             running = false;
         }
-        // Collision: Pipe
-        if (belgX >= pipeX){
-            if (belgY + currentBird.getHeight() > pipeY + gapHeight ||
-                    belgY - currentBird.getHeight() < pipeY) {
+        // Collision: Car
+        if (belgX >= carX){
+            if (belgY + currentBird.getHeight() > carY + gapHeight ||
+                    belgY - currentBird.getHeight() < carY) {
                 running = false;
             }
         }
     }
 
     public void setDayNightCycle(){
-        // Day / Nigh cycle
+        // Day / Night cycle
         if (dayNightCycle >= 3000){
             dayNightCycle = 1;
         } else if (dayNightCycle > 0 && dayNightCycle <= 1050) {
