@@ -1,6 +1,8 @@
 package com.example.magicarcade.ZwevendeBelg;
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 
 public class PipePart {
 
@@ -24,5 +26,13 @@ public class PipePart {
 
     public int getPipeY(){
         return this.pipeY;
+    }
+
+    public void draw(Canvas canvas, Paint paint){
+        canvas.drawBitmap(this.image, this.pipeX, this.pipeY, paint);
+    }
+
+    public void update(int pipeX){
+        this.pipeX -= pipeX;
     }
 }

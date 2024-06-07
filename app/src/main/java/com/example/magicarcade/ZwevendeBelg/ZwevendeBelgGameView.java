@@ -12,6 +12,8 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import androidx.core.content.ContextCompat;
 import com.example.magicarcade.R;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ZwevendeBelgGameView extends SurfaceView implements Runnable {
@@ -35,7 +37,7 @@ public class ZwevendeBelgGameView extends SurfaceView implements Runnable {
     private int prevPipeSpawnTime;
     private int pipeSpawnTime;
     private int dayNightCycle;
-    private HashMap<Integer, PipePart> idPipes = new HashMap<>();
+    private ArrayList<PipeRow> pipes = new ArrayList<>();
     private Color theColor = Color.valueOf(ContextCompat.getColor(getContext(), R.color.lightBlue));
 
     public ZwevendeBelgGameView(Context context) {
@@ -59,8 +61,8 @@ public class ZwevendeBelgGameView extends SurfaceView implements Runnable {
         screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels-110;
         gapHeight = 500;
 
-        pipeSpawnTime = 1000;
-        prevPipeSpawnTime = pipeSpawnTime;
+        pipeSpawnTime = 50;
+        prevPipeSpawnTime = 100;
         dayNightCycle = 0;
 
         pipeTopBack = BitmapFactory.decodeResource(getResources(), R.drawable.car_top_back_red);
@@ -99,16 +101,26 @@ public class ZwevendeBelgGameView extends SurfaceView implements Runnable {
     }
 
     private void update() {
+        pipeX += pipeSpeedX;
+
         setBelgImage();
         checkCollision();
-        generatePipeImages();
         setDayNightCycle();
 
+        // Update piperows
+        for (PipeRow pipeRow : pipes) {
+            pipeRow.update(pipeX);
+        }
+
         // Timers and adjustable values
-        pipeX += pipeSpeedX;
         if (pipeSpawnTime <= 0 || pipeX <= -pipeTopMiddle.getWidth()){
             pipeX = getWidth();
             pipeY = (int) (Math.random() * (screenHeight-(gapHeight+(imageHeight*2))) + (imageHeight*2));
+
+            PipeRow row = new PipeRow(pipeX, pipeY);
+            row.generatePipeRowImages(pipeTopBack, pipeTopMiddle, pipeTopFront, pipeBottomFront, pipeBottomMiddle, pipeBottomFront,
+                                      imageHeight, gapHeight, screenHeight);
+            pipes.add(row);
 
             // Make game more difficult
             pipeSpeedX += 1;
@@ -127,9 +139,9 @@ public class ZwevendeBelgGameView extends SurfaceView implements Runnable {
             // Draw belg
             canvas.drawBitmap(currentBird, belgX, belgY, paint);
 
-            // Calculate distances and draw the images based on the pipeY value
-            for (Integer i : idPipes.keySet()) {
-                canvas.drawBitmap(idPipes.get(i).getImage(), idPipes.get(i).getPipeX(), idPipes.get(i).getPipeY(), paint);
+            // Draw pipes
+            for (PipeRow pipeRow : pipes) {
+                pipeRow.drawPipes(canvas, paint);
             }
         }
     }
@@ -176,48 +188,17 @@ public class ZwevendeBelgGameView extends SurfaceView implements Runnable {
     }
 
     public void checkCollision(){
-        // Check collision
+        // Collision: Out of Bounds
         if (belgY <= 0 || belgY >= screenHeight){
             running = false;
         }
+        // Collision: Pipe
         if (belgX >= pipeX){
             if (belgY + currentBird.getHeight() > pipeY + gapHeight ||
                     belgY - currentBird.getHeight() < pipeY) {
                 running = false;
             }
         }
-    }
-
-    public void generatePipeImages(){
-        // Generate new pipe images
-        int id = 0;
-        int heightCounter = 0;
-
-        PipePart topPart = new PipePart(pipeTopBack, pipeX, heightCounter);
-        idPipes.put(id, topPart);
-        id++;
-        while (heightCounter + imageHeight < pipeY - imageHeight){
-            heightCounter += imageHeight;
-            PipePart topMiddlepart = new PipePart(pipeTopMiddle, pipeX, heightCounter);
-            idPipes.put(id, topMiddlepart);
-            id++;
-        }
-        PipePart topBottomPart = new PipePart(pipeTopFront, pipeX, heightCounter + imageHeight);
-        idPipes.put(id, topBottomPart);
-        id++;
-
-        // PipeY value is here, at the bottom of the top pipe
-        PipePart bottomTopPart = new PipePart(pipeBottomFront, pipeX, heightCounter + gapHeight);
-        idPipes.put(id, bottomTopPart);
-        id++;
-        while (heightCounter + imageHeight + gapHeight < screenHeight + 20){
-            heightCounter += imageHeight;
-            PipePart bottomMiddlePart = new PipePart(pipeBottomMiddle, pipeX, heightCounter + gapHeight);
-            idPipes.put(id, bottomMiddlePart);
-            id++;
-        }
-        PipePart bottomBottomPart = new PipePart(pipeBottomBack, pipeX, heightCounter + imageHeight + gapHeight);
-        idPipes.put(id, bottomBottomPart);
     }
 
     public void setDayNightCycle(){
