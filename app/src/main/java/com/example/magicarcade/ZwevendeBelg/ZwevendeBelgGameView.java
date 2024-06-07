@@ -38,6 +38,7 @@ public class ZwevendeBelgGameView extends SurfaceView implements Runnable {
     private int dayNightCycle;
     private ArrayList<CarRow> cars = new ArrayList<>();
     private Color theColor = Color.valueOf(ContextCompat.getColor(getContext(), R.color.lightBlue));
+    private ArrayList<GameObject> gameObjects = new ArrayList<>();
 
     public ZwevendeBelgGameView(Context context) {
         // Configure game settings

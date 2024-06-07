@@ -13,6 +13,10 @@ public class Player extends GameObject{
         this.currentImage = images.get("stationary");
     }
 
+    public void setCurrentImage(Bitmap image){
+        this.currentImage = image;
+    }
+
     @Override
     void draw(Canvas canvas, Paint paint) {
         canvas.drawBitmap(this.currentImage, super.getLocationX(), super.getLocationY(), paint);
