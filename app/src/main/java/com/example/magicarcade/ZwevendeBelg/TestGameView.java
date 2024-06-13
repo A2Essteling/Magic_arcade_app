@@ -27,7 +27,7 @@ public class TestGameView extends SurfaceView implements Runnable {
     private Bitmap belgDown, belgUp, belgStationary,
                    carTopBack, carTopMiddle, carTopFront, carBottomBack, carBottomMiddle, carBottomFront;
     private ArrayList<GameObject> gameObjects = new ArrayList<>();
-    private Player player;
+    private Belg belg;
     private int objectSpawnTime = 0;
     private int prevObjectSpawnTime = 200;
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
@@ -54,8 +54,8 @@ public class TestGameView extends SurfaceView implements Runnable {
         playerMap.put("stationary", BitmapFactory.decodeResource(getResources(), R.drawable.belg_stationary));
         playerMap.put("down", BitmapFactory.decodeResource(getResources(), R.drawable.belg_down));
 
-        this.player = new Player(playerMap, 100, 100);
-        gameObjects.add(this.player);
+        this.belg = new Belg(playerMap, 100, 100);
+        gameObjects.add(this.belg);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class TestGameView extends SurfaceView implements Runnable {
             }
 
             update();
-            Canvas canvas = null;
+q           Canvas canvas = null;
             try {
                 canvas = holder.lockCanvas();
                 synchronized (holder) {
@@ -124,7 +124,7 @@ public class TestGameView extends SurfaceView implements Runnable {
             canvas.drawColor(theColor.toArgb());
 
             // Draw player
-            player.draw(canvas, paint);
+            belg.draw(canvas, paint);
 
             // Draw game objects
             for (GameObject gameObject : gameObjects) {
@@ -136,8 +136,8 @@ public class TestGameView extends SurfaceView implements Runnable {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            player.setSpeedYDirection(-30);
-            player.setCurrentImage(player.getImage("up"));
+            belg.setSpeedYDirection(-30);
+            belg.setCurrentImage(belg.getImage("up"));
         }
         return true;
     }

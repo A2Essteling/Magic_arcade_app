@@ -6,9 +6,9 @@ import android.graphics.Bitmap;
 
 import java.util.HashMap;
 
-public class Player extends GameObject{
+public class Belg extends GameObject{
     private Bitmap currentImage;
-    public Player(HashMap<String, Bitmap> images, int locationX, int locationY){
+    public Belg(HashMap<String, Bitmap> images, int locationX, int locationY){
         super(images, locationX, locationY);
         this.currentImage = images.get("stationary");
     }
