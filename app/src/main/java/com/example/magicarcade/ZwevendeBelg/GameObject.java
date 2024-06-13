@@ -7,11 +7,11 @@ import android.graphics.Paint;
 import java.util.HashMap;
 
 public abstract class GameObject {
-    private int locationX;
-    private int locationY;
+    private double locationX;
+    private double locationY;
     private HashMap<String, Bitmap> images = new HashMap<>();
     private int speedXDirection;
-    private int speedYDirection;
+    private double speedYDirection;
     public GameObject(HashMap<String, Bitmap> images, int initialX, int initialY){
         this.images = images;
         this.locationX = initialX;
@@ -19,16 +19,16 @@ public abstract class GameObject {
     }
     abstract void draw(Canvas canvas, Paint paint);
     abstract void update();
-    public void setLocationX(int xValue) {
+    public void setLocationX(double xValue) {
         this.locationX = xValue;
     }
-    public int getLocationX() {
+    public double getLocationX() {
         return this.locationX;
     }
-    public void setLocationY(int yValue) {
+    public void setLocationY(double yValue) {
         this.locationY = yValue;
     }
-    public int getLocationY() {
+    public double getLocationY() {
         return this.locationY;
     }
     public void setSpeedXDirection(int xValue) {
@@ -37,10 +37,10 @@ public abstract class GameObject {
     public int getSpeedXDirection() {
         return this.speedXDirection;
     }
-    public void setSpeedYDirection(int yValue) {
+    public void setSpeedYDirection(double yValue) {
         this.speedYDirection = yValue;
     }
-    public int getSpeedYDirection() {
+    public double getSpeedYDirection() {
         return this.speedYDirection;
     }
     public Bitmap getImage(String searchImage) {

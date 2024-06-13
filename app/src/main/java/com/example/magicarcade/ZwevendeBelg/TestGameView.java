@@ -54,7 +54,7 @@ public class TestGameView extends SurfaceView implements Runnable {
         playerMap.put("stationary", BitmapFactory.decodeResource(getResources(), R.drawable.belg_stationary));
         playerMap.put("down", BitmapFactory.decodeResource(getResources(), R.drawable.belg_down));
 
-        this.belg = new Belg(playerMap, 100, 100);
+        this.belg = new Belg(playerMap, screenWidth/6, screenHeight/6);
         gameObjects.add(this.belg);
     }
 
@@ -66,7 +66,7 @@ public class TestGameView extends SurfaceView implements Runnable {
             }
 
             update();
-q           Canvas canvas = null;
+           Canvas canvas = null;
             try {
                 canvas = holder.lockCanvas();
                 synchronized (holder) {
@@ -136,7 +136,7 @@ q           Canvas canvas = null;
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            belg.setSpeedYDirection(-30);
+            belg.bounce();
             belg.setCurrentImage(belg.getImage("up"));
         }
         return true;
