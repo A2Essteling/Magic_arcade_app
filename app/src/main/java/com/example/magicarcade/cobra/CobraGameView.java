@@ -143,6 +143,11 @@ public class CobraGameView extends View {
     }
 
     private boolean locationIsValid(){
+        for (Coordinate coordinate : snake) {
+            if (newX == coordinate.getX() || newY == coordinate.getY())
+                return false;
+        }
+
         return (newX < 0 || newX >= GRID_SIZE || newY < 0 || newY >= GRID_SIZE);
     }
 
