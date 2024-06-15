@@ -78,21 +78,21 @@ public class CobraGameView extends View {
         handler.removeCallbacks(moveSnakeRunnable);
     }
 
-    private void moveSnake() {
+    private void update() {
         Coordinate head = snake.get(0);
         newX = head.getX();
         newY = head.getY();
         switch (direction) {
-            case Direction.UP:
+            case UP:
                 newY--;
                 break;
-            case Direction.DOWN:
+            case DOWN:
                 newY++;
                 break;
-            case Direction.LEFT:
+            case LEFT:
                 newX--;
                 break;
-            case Direction.RIGHT:
+            case RIGHT:
                 newX++;
                 break;
         }
@@ -125,16 +125,10 @@ public class CobraGameView extends View {
         food = new Coordinate(x, y);
     }
 
-    public void setDirection(int direction) {
-        if (Math.abs(this.direction - direction) != 2) {
-            this.direction = direction;
-        }
-    }
-
     private final Runnable moveSnakeRunnable = new Runnable() {
         @Override
         public void run() {
-            moveSnake();
+            update();
         }
     };
 
