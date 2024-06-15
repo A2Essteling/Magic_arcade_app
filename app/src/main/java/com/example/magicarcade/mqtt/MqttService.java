@@ -19,6 +19,8 @@ import com.hivemq.client.mqtt.mqtt5.message.disconnect.Mqtt5DisconnectReasonCode
 import com.hivemq.client.mqtt.mqtt5.message.publish.Mqtt5Publish;
 import com.hivemq.client.mqtt.mqtt5.message.subscribe.Mqtt5RetainHandling;
 
+import java.text.DecimalFormat;
+
 public class MqttService extends Service {
 
     private static final String TAG = "MqttService";
@@ -110,21 +112,22 @@ public class MqttService extends Service {
     private static void onMessageReceived(Mqtt5Publish publish) {
 //        Log.d(TAG, "Received message: " + new String(publish.getPayloadAsBytes()));
 //        Log.d(TAG, "Received topic: " + publish.getTopic().toString());
+        Log.d(TAG, String.valueOf(Profile.getController().getID().getValue()));
         Controller controller = Profile.getController();
         String payload = new String(publish.getPayloadAsBytes());
         String topic = publish.getTopic().toString();
-        if (topic.equals(baseTopic + "/" + Profile.getController().getID() + "/button1")) {
-            controller.setButton_1(payload.equals("1"));
-        } else if (topic.equals(baseTopic + "/" + Profile.getController().getID() + "/button2")) {
-            controller.setButton_2(payload.equals("1"));
-        } else if (topic.equals(baseTopic + "/" + Profile.getController().getID() + "/joystickButton")) {
-            controller.setButton_joy(payload.equals("1"));
-        } else if (topic.equals(baseTopic + "/" + Profile.getController().getID() + "/joystickX")) {
-            controller.setJoy_x(Integer.parseInt(payload));
-        } else if (topic.equals(baseTopic + "/" + Profile.getController().getID() + "/joystickY")) {
-            controller.setJoy_y(Integer.parseInt(payload));
+        if (topic.equals(baseTopic + "/" + Profile.getController().getID().getValue() + "/button1")) {
+            controller.setButton1(payload.equals("1"));
+        } else if (topic.equals(baseTopic + "/" + Profile.getController().getID().getValue() + "/button2")) {
+            controller.setButton2(payload.equals("1"));
+        } else if (topic.equals(baseTopic + "/" + Profile.getController().getID().getValue() + "/joystickButton")) {
+            controller.setButtonJoy(payload.equals("1"));
+        } else if (topic.equals(baseTopic + "/" + Profile.getController().getID().getValue() + "/joystickX")) {
+            controller.setJoyX(Math.round((Double.parseDouble(payload) / 4095 * 200) - 100));
+        } else if (topic.equals(baseTopic + "/" + Profile.getController().getID().getValue() + "/joystickY")) {
+            controller.setJoyY(Math.round((Double.parseDouble(payload) / 4095 * 200) - 100));
         }
-        Log.d(TAG,controller.toString());
+        Log.d(TAG, controller.toString());
     }
 
     public static void subscribe(String topic) {

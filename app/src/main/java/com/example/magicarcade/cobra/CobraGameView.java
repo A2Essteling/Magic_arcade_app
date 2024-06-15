@@ -26,9 +26,9 @@ public class CobraGameView extends View {
     private int playerScore;
 
     //movement
-    private boolean isMoving = false;
-    private int directionSpeedX;
-    private int directionSpeedY;
+    public static boolean isMoving = false;
+    private static int directionSpeedX;
+    private static int directionSpeedY;
     int nextLocationX;
     int nextLocationY;
 
@@ -116,7 +116,7 @@ public class CobraGameView extends View {
         }
     }
 
-    private void setDirectionSpeed(Direction direction) {
+    public static void setDirectionSpeed(Direction direction) {
         switch (direction){
             case UP:
                 directionSpeedX = 0;

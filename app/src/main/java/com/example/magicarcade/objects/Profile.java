@@ -2,7 +2,6 @@ package com.example.magicarcade.objects;
 
 import com.example.magicarcade.Voucher;
 import com.example.magicarcade.mqtt.MqttService;
-
 import java.util.ArrayList;
 import java.util.List;
 

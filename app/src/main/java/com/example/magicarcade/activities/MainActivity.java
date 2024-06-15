@@ -18,7 +18,10 @@ import com.example.magicarcade.fragments.HomeFragment;
 import com.example.magicarcade.fragments.QRFragment;
 import com.example.magicarcade.fragments.ScoreboardFragment;
 import com.example.magicarcade.fragments.VoucherFragment;
+import com.example.magicarcade.mqtt.CobraConverter;
 import com.example.magicarcade.mqtt.MqttService;
+import com.example.magicarcade.objects.Controller;
+import com.example.magicarcade.objects.Profile;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -34,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Controller controller = Profile.getController();
+        CobraConverter cobraConverter = new CobraConverter(controller, this);
 
 //        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
