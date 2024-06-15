@@ -19,13 +19,13 @@ public class CobraConverter {
     }
 
     private void update() {
-        if (controller.getJoyY().getValue() < 10)
-            CobraGameView.setDirectionSpeed(Direction.DOWN);
-        else if (controller.getJoyY().getValue() > 10)
+        if (controller.getJoyY().getValue() < -15)
             CobraGameView.setDirectionSpeed(Direction.UP);
-        else if (controller.getJoyX().getValue() < 10)
+        if (controller.getJoyY().getValue() > 15)
+            CobraGameView.setDirectionSpeed(Direction.DOWN);
+        if (controller.getJoyX().getValue() < -15)
             CobraGameView.setDirectionSpeed(Direction.RIGHT);
-        else if (controller.getJoyX().getValue() > 10)
+        if (controller.getJoyX().getValue() > 15)
             CobraGameView.setDirectionSpeed(Direction.LEFT);
     }
 
@@ -48,21 +48,21 @@ public class CobraConverter {
             @Override
             public void onChanged(Boolean buttonJoy) {
                 update();
-                Log.d(TAG, "Button Joy updated: " + buttonJoy);
+//                Log.d(TAG, "Button Joy updated: " + buttonJoy);
             }
         });
         controller.getButton1().observe(owner, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean button1) {
                 update();
-                Log.d(TAG, "Button 1 updated: " + button1);
+//                Log.d(TAG, "Button 1 updated: " + button1);
             }
         });
         controller.getButton2().observe(owner, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean button2) {
                 update();
-                Log.d(TAG, "Button 2 updated: " + button2);
+//                Log.d(TAG, "Button 2 updated: " + button2);
             }
         });
     }

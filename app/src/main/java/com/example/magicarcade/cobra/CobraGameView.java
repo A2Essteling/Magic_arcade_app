@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Handler;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
@@ -18,6 +17,7 @@ public class CobraGameView extends View {
     private static final int CELL_SIZE = 20;
     private static final int SNAKE_LENGTH = 3;
     private static final int MOVE_DELAY = 300;
+    private static Direction currentDirection;
 
     private ArrayList<Coordinate> snake;
     private Coordinate food;
@@ -36,7 +36,7 @@ public class CobraGameView extends View {
         super(context);
         init();
     }
-    
+
 
     private void init() {
         playerScore = 0;
@@ -44,7 +44,7 @@ public class CobraGameView extends View {
 
         snake = new ArrayList<>();
         for (int i = SNAKE_LENGTH - 1; i >= 0; i--) {
-            snake.add(new Coordinate(i, 0));
+            snake.add(new Coordinate(i + 30, 30));
         }
         spawnFood();
 
@@ -68,11 +68,13 @@ public class CobraGameView extends View {
 
     public void startGame() {
         isMoving = true;
+        Log.d("Cobra", "start");
         handler.postDelayed(moveSnakeRunnable, MOVE_DELAY);
     }
 
     public void pauseGame() {
         isMoving = false;
+        Log.d("Cobra", "pause");
         handler.removeCallbacks(moveSnakeRunnable);
     }
 
@@ -82,16 +84,16 @@ public class CobraGameView extends View {
         nextLocationX = head.getX() + directionSpeedX;
         nextLocationY = head.getY() + directionSpeedY;
 
-        if (!locationIsValid()) {
-            pauseGame();
-            return;
-        }
-        for (Coordinate c : snake) {
-            if (c.getX() == nextLocationX && c.getY() == nextLocationY) {
-                pauseGame();
-                return;
-            }
-        }
+//        if (locationIsValid()) {
+////            pauseGame();
+//            return;
+//        }
+//        for (Coordinate c : snake) {
+//            if (c.getX() == nextLocationX && c.getY() == nextLocationY) {
+////                pauseGame();
+//                return;
+//            }
+//        }
         snake.add(0, new Coordinate(nextLocationX, nextLocationY));
         if (nextLocationX == food.getX() && nextLocationY == food.getY()) {
             foodConsumed();
@@ -105,25 +107,31 @@ public class CobraGameView extends View {
     }
 
     public static void setDirectionSpeed(Direction direction) {
-        switch (direction){
-            case UP:
-                directionSpeedX = 0;
-                directionSpeedY = 1;
-                break;
-            case DOWN:
-                directionSpeedX = 0;
-                directionSpeedY = -1;
-                break;
-            case LEFT:
-                directionSpeedX = 1;
-                directionSpeedY = 0;
-                break;
-            case RIGHT:
-                directionSpeedX = -1;
-                directionSpeedY = 0;
-                break;
+        Log.d("cobra", String.valueOf(direction));
+        if (currentDirection != direction)
+            switch (direction) {
+                case UP:
+                    currentDirection = direction;
+                    directionSpeedX = 0;
+                    directionSpeedY = 1;
+                    break;
+                case DOWN:
+                    currentDirection = direction;
+                    directionSpeedX = 0;
+                    directionSpeedY = -1;
+                    break;
+                case LEFT:
+                    currentDirection = direction;
+                    directionSpeedX = 1;
+                    directionSpeedY = 0;
+                    break;
+                case RIGHT:
+                    currentDirection = direction;
+                    directionSpeedX = -1;
+                    directionSpeedY = 0;
+                    break;
 
-        }
+            }
     }
 
     private void spawnFood() {
@@ -133,12 +141,12 @@ public class CobraGameView extends View {
         food = new Coordinate(x, y);
     }
 
-    private void foodConsumed(){
+    private void foodConsumed() {
         spawnFood();
         playerScore += 100;
     }
 
-    private boolean locationIsValid(){
+    private boolean locationIsValid() {
         for (Coordinate coordinate : snake) {
             if (nextLocationX == coordinate.getX() || nextLocationY == coordinate.getY())
                 return false;
@@ -150,7 +158,9 @@ public class CobraGameView extends View {
     private final Runnable moveSnakeRunnable = new Runnable() {
         @Override
         public void run() {
-            Log.d("Cobra","run");
+            Log.d("Cobra", "run");
+//            Log.d("Cobra", String.valueOf(directionSpeedY));
+//            Log.d("Cobra", String.valueOf(directionSpeedX));
             update();
         }
     };
