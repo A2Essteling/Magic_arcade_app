@@ -20,7 +20,7 @@ public class CobraGameView extends View {
 
     private ArrayList<Coordinate> snake;
     private Coordinate food;
-    private int direction = Direction.RIGHT;
+    private Direction direction;
     private boolean isMoving = false;
     private Handler handler;
     private int playerScore;
@@ -49,6 +49,7 @@ public class CobraGameView extends View {
         }
         spawnFood();
         playerScore = 0;
+        direction = Direction.RIGHT;
         handler = new Handler();
     }
 
