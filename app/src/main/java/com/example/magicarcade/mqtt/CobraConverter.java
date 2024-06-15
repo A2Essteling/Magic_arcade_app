@@ -24,9 +24,9 @@ public class CobraConverter {
         if (controller.getJoyY().getValue() > 15)
             CobraGameView.setDirectionSpeed(Direction.DOWN);
         if (controller.getJoyX().getValue() < -15)
-            CobraGameView.setDirectionSpeed(Direction.RIGHT);
-        if (controller.getJoyX().getValue() > 15)
             CobraGameView.setDirectionSpeed(Direction.LEFT);
+        if (controller.getJoyX().getValue() > 15)
+            CobraGameView.setDirectionSpeed(Direction.RIGHT);
     }
 
     private void observeController(LifecycleOwner owner) {

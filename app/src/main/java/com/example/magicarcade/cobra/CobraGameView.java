@@ -122,12 +122,12 @@ public class CobraGameView extends View {
                     break;
                 case LEFT:
                     currentDirection = direction;
-                    directionSpeedX = 1;
+                    directionSpeedX = -1;
                     directionSpeedY = 0;
                     break;
                 case RIGHT:
                     currentDirection = direction;
-                    directionSpeedX = -1;
+                    directionSpeedX = 1;
                     directionSpeedY = 0;
                     break;
 
