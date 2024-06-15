@@ -20,8 +20,6 @@ public class CobraGameView extends View {
 
     private ArrayList<Coordinate> snake;
     private Coordinate food;
-    private Direction direction;
-
     private Handler handler;
     private int playerScore;
 
@@ -50,9 +48,7 @@ public class CobraGameView extends View {
 
     private void init() {
         playerScore = 0;
-        directionSpeedX = 1;
-        directionSpeedY = 0;
-        direction = Direction.RIGHT;
+        setDirectionSpeed(Direction.RIGHT);
 
         snake = new ArrayList<>();
         for (int i = SNAKE_LENGTH - 1; i >= 0; i--) {
