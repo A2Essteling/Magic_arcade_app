@@ -23,6 +23,9 @@ public class CobraGameView extends View {
     private int direction = Direction.RIGHT;
     private boolean isMoving = false;
     private Handler handler;
+    private int playerScore;
+    int newX;
+    int newY;
 
     public CobraGameView(Context context) {
         super(context);
@@ -45,6 +48,7 @@ public class CobraGameView extends View {
             snake.add(new Coordinate(i, 0));
         }
         spawnFood();
+        playerScore = 0;
         handler = new Handler();
     }
 
@@ -75,8 +79,8 @@ public class CobraGameView extends View {
 
     private void moveSnake() {
         Coordinate head = snake.get(0);
-        int newX = head.getX();
-        int newY = head.getY();
+        newX = head.getX();
+        newY = head.getY();
         switch (direction) {
             case Direction.UP:
                 newY--;
@@ -91,7 +95,7 @@ public class CobraGameView extends View {
                 newX++;
                 break;
         }
-        if (newX < 0 || newX >= GRID_SIZE || newY < 0 || newY >= GRID_SIZE) {
+        if (!locationIsValid()) {
             pauseGame();
             return;
         }
@@ -103,7 +107,7 @@ public class CobraGameView extends View {
         }
         snake.add(0, new Coordinate(newX, newY));
         if (newX == food.getX() && newY == food.getY()) {
-            spawnFood();
+            foodConsumed();
         } else {
             snake.remove(snake.size() - 1);
         }
@@ -133,5 +137,13 @@ public class CobraGameView extends View {
         }
     };
 
+    private void foodConsumed(){
+        spawnFood();
+        playerScore += 100;
+    }
+
+    private boolean locationIsValid(){
+        return (newX < 0 || newX >= GRID_SIZE || newY < 0 || newY >= GRID_SIZE);
+    }
 
 }
