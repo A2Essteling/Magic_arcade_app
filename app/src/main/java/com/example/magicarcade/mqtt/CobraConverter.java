@@ -1,8 +1,9 @@
 package com.example.magicarcade.mqtt;
 
+import android.util.Log;
+
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
-import android.util.Log;
 
 import com.example.magicarcade.cobra.CobraGameView;
 import com.example.magicarcade.cobra.Direction;
@@ -16,17 +17,16 @@ public class CobraConverter {
         this.controller = controller;
         observeController(lifecycleOwner);
     }
+
     private void update() {
-        if(CobraGameView.isMoving){
-            if(controller.getJoyY().getValue() < 10)
-                CobraGameView.setDirectionSpeed(Direction.DOWN);
-            else if(controller.getJoyY().getValue() > 10)
-                CobraGameView.setDirectionSpeed(Direction.UP);
-            else if(controller.getJoyX().getValue() < 10)
-                CobraGameView.setDirectionSpeed(Direction.RIGHT);
-            else if(controller.getJoyX().getValue() > 10)
-                CobraGameView.setDirectionSpeed(Direction.LEFT);
-        }
+        if (controller.getJoyY().getValue() < 10)
+            CobraGameView.setDirectionSpeed(Direction.DOWN);
+        else if (controller.getJoyY().getValue() > 10)
+            CobraGameView.setDirectionSpeed(Direction.UP);
+        else if (controller.getJoyX().getValue() < 10)
+            CobraGameView.setDirectionSpeed(Direction.RIGHT);
+        else if (controller.getJoyX().getValue() > 10)
+            CobraGameView.setDirectionSpeed(Direction.LEFT);
     }
 
     private void observeController(LifecycleOwner owner) {

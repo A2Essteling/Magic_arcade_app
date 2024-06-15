@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Handler;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -35,16 +36,7 @@ public class CobraGameView extends View {
         super(context);
         init();
     }
-
-    public CobraGameView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init();
-    }
-
-    public CobraGameView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init();
-    }
+    
 
     private void init() {
         playerScore = 0;
@@ -158,6 +150,7 @@ public class CobraGameView extends View {
     private final Runnable moveSnakeRunnable = new Runnable() {
         @Override
         public void run() {
+            Log.d("Cobra","run");
             update();
         }
     };

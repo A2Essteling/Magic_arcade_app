@@ -37,9 +37,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Controller controller = Profile.getController();
-        CobraConverter cobraConverter = new CobraConverter(controller, this);
-
 //        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         viewPager = findViewById(R.id.viewPager);
