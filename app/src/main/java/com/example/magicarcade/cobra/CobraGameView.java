@@ -21,11 +21,17 @@ public class CobraGameView extends View {
     private ArrayList<Coordinate> snake;
     private Coordinate food;
     private Direction direction;
-    private boolean isMoving = false;
+
     private Handler handler;
     private int playerScore;
-    int newX;
-    int newY;
+
+    //movement
+    private boolean isMoving = false;
+    private int directionSpeedX;
+    private int directionSpeedY;
+    int nextLocationX;
+    int nextLocationY;
+
 
     public CobraGameView(Context context) {
         super(context);
@@ -43,13 +49,17 @@ public class CobraGameView extends View {
     }
 
     private void init() {
+        playerScore = 0;
+        directionSpeedX = 1;
+        directionSpeedY = 0;
+        direction = Direction.RIGHT;
+
         snake = new ArrayList<>();
         for (int i = SNAKE_LENGTH - 1; i >= 0; i--) {
             snake.add(new Coordinate(i, 0));
         }
         spawnFood();
-        playerScore = 0;
-        direction = Direction.RIGHT;
+
         handler = new Handler();
     }
 
@@ -80,34 +90,22 @@ public class CobraGameView extends View {
 
     private void update() {
         Coordinate head = snake.get(0);
-        newX = head.getX();
-        newY = head.getY();
-        switch (direction) {
-            case UP:
-                newY--;
-                break;
-            case DOWN:
-                newY++;
-                break;
-            case LEFT:
-                newX--;
-                break;
-            case RIGHT:
-                newX++;
-                break;
-        }
+
+        nextLocationX = head.getX() + directionSpeedX;
+        nextLocationY = head.getY() + directionSpeedY;
+
         if (!locationIsValid()) {
             pauseGame();
             return;
         }
         for (Coordinate c : snake) {
-            if (c.getX() == newX && c.getY() == newY) {
+            if (c.getX() == nextLocationX && c.getY() == nextLocationY) {
                 pauseGame();
                 return;
             }
         }
-        snake.add(0, new Coordinate(newX, newY));
-        if (newX == food.getX() && newY == food.getY()) {
+        snake.add(0, new Coordinate(nextLocationX, nextLocationY));
+        if (nextLocationX == food.getX() && nextLocationY == food.getY()) {
             foodConsumed();
         } else {
             snake.remove(snake.size() - 1);
@@ -118,19 +116,34 @@ public class CobraGameView extends View {
         }
     }
 
+    private void setDirectionSpeed(Direction direction) {
+        switch (direction){
+            case UP:
+                directionSpeedX = 0;
+                directionSpeedY = 1;
+                break;
+            case DOWN:
+                directionSpeedX = 0;
+                directionSpeedY = -1;
+                break;
+            case LEFT:
+                directionSpeedX = 1;
+                directionSpeedY = 0;
+                break;
+            case RIGHT:
+                directionSpeedX = -1;
+                directionSpeedY = 0;
+                break;
+
+        }
+    }
+
     private void spawnFood() {
         Random random = new Random();
         int x = random.nextInt(GRID_SIZE);
         int y = random.nextInt(GRID_SIZE);
         food = new Coordinate(x, y);
     }
-
-    private final Runnable moveSnakeRunnable = new Runnable() {
-        @Override
-        public void run() {
-            update();
-        }
-    };
 
     private void foodConsumed(){
         spawnFood();
@@ -139,11 +152,18 @@ public class CobraGameView extends View {
 
     private boolean locationIsValid(){
         for (Coordinate coordinate : snake) {
-            if (newX == coordinate.getX() || newY == coordinate.getY())
+            if (nextLocationX == coordinate.getX() || nextLocationY == coordinate.getY())
                 return false;
         }
 
-        return !(newX < 0 || newX >= GRID_SIZE || newY < 0 || newY >= GRID_SIZE);
+        return !(nextLocationX < 0 || nextLocationX >= GRID_SIZE || nextLocationY < 0 || nextLocationY >= GRID_SIZE);
     }
+
+    private final Runnable moveSnakeRunnable = new Runnable() {
+        @Override
+        public void run() {
+            update();
+        }
+    };
 
 }
