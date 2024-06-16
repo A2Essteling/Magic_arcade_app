@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:padding="5dp">
 
-
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -72,7 +71,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="0dp"
                         android:fontFamily="@font/verdana"
-                        android:text="@string/attraction_1"
+                        android:text="Jonkheer 1897"
                         android:textColor="@color/black"
                         android:textSize="18sp" />
 
@@ -114,7 +113,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="0dp"
                         android:fontFamily="@font/verdana"
-                        android:text="@string/attraction_2"
+                        android:text="Astrolica"
                         android:textColor="@color/black"
                         android:textSize="18sp" />
 
@@ -155,7 +154,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="0dp"
                         android:fontFamily="@font/verdana"
-                        android:text="@string/attraction_3"
+                        android:text="De Zwevende Belg"
                         android:textColor="@color/black"
                         android:textSize="18sp" />
 
@@ -196,7 +195,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="0dp"
                         android:fontFamily="@font/verdana"
-                        android:text="@string/attraction_4"
+                        android:text="Droomreis"
                         android:textColor="@color/black"
                         android:textSize="18sp" />
 
@@ -237,7 +236,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="0dp"
                         android:fontFamily="@font/verdana"
-                        android:text="@string/attraction_5"
+                        android:text="Johan &amp; de Eenhoorn"
                         android:textColor="@color/black"
                         android:textSize="18sp" />
 
@@ -279,7 +278,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="0dp"
                         android:fontFamily="@font/verdana"
-                        android:text="@string/attraction_6"
+                        android:text="Cobra"
                         android:textColor="@color/black"
                         android:textSize="18sp" />
 
@@ -299,23 +298,4 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
-
-    <TextView
-        android:id="@+id/textViewPoints"
-        android:layout_width="285dp"
-        android:layout_height="39dp"
-        android:layout_marginTop="0dp"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:focusable="true"
-        android:fontFamily="@font/georgia"
-        android:text="@string/points_on_account"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
