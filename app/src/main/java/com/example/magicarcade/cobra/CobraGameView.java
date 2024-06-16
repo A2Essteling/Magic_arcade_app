@@ -85,7 +85,7 @@ public class CobraGameView extends View {
         nextLocationX = head.getX() + directionSpeedX;
         nextLocationY = head.getY() + directionSpeedY;
 
-        if (!locationIsValid()) {
+        if (locationIsValid()) {
             terminateGame();
             Intent intent = new Intent(getContext(), GameOverActivity.class);
             intent.putExtra("SCORE", playerScore);
