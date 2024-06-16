@@ -26,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button buttonScan;
 
     private static final String TAG = "LoginActivity";
-    private String IDString = "";
+    private String IDString = "1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
