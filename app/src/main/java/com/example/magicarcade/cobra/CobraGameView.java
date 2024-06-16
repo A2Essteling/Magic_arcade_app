@@ -33,6 +33,7 @@ public class CobraGameView extends View {
     private int directionSpeedY;
     int nextLocationX;
     int nextLocationY;
+    private int SCOREADD = 100;
 
 
     public CobraGameView(Context context) {
@@ -76,6 +77,7 @@ public class CobraGameView extends View {
     }
 
     public void terminateGame() {
+        Profile.addScore(playerScore);
         isMoving = false;
         Log.d("Cobra", "pause");
         handler.removeCallbacks(moveSnakeRunnable);
@@ -141,7 +143,7 @@ public class CobraGameView extends View {
 
     private void foodConsumed() {
         spawnFood();
-        playerScore += 1;
+        playerScore += SCOREADD;
     }
 
     private boolean locationIsValid() {
@@ -156,9 +158,8 @@ public class CobraGameView extends View {
     private final Runnable moveSnakeRunnable = new Runnable() {
         @Override
         public void run() {
+            MqttService.publishMsgID("lcd", String.valueOf(playerScore));
             Log.d("Cobra", "run");
-//            Log.d("Cobra", String.valueOf(directionSpeedY));
-//            Log.d("Cobra", String.valueOf(directionSpeedX));
             update();
         }
     };

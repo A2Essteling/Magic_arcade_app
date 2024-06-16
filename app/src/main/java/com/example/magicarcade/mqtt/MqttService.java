@@ -19,8 +19,6 @@ import com.hivemq.client.mqtt.mqtt5.message.disconnect.Mqtt5DisconnectReasonCode
 import com.hivemq.client.mqtt.mqtt5.message.publish.Mqtt5Publish;
 import com.hivemq.client.mqtt.mqtt5.message.subscribe.Mqtt5RetainHandling;
 
-import java.text.DecimalFormat;
-
 public class MqttService extends Service {
 
     private static final String TAG = "MqttService";
@@ -38,6 +36,19 @@ public class MqttService extends Service {
         Log.d(TAG, "Publishing message...");
         client.toBlocking().publishWith()
                 .topic(baseTopic + "/" + topic)
+                .qos(MqttQos.EXACTLY_ONCE)
+                .payload(msg.getBytes())
+                .retain(true)
+                .contentType("text/plain")
+                .send();
+
+        Log.d(TAG, "Message published");
+    }
+
+    public static void publishMsgID(String topic, String msg) {
+        Log.d(TAG, "Publishing message...");
+        client.toBlocking().publishWith()
+                .topic(baseTopic + "/" + Profile.getController().getID().getValue() + "/" + topic)
                 .qos(MqttQos.EXACTLY_ONCE)
                 .payload(msg.getBytes())
                 .retain(true)
