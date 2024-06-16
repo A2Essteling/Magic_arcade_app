@@ -1,6 +1,7 @@
 package com.example.magicarcade.cobra;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -84,8 +85,11 @@ public class CobraGameView extends View {
         nextLocationX = head.getX() + directionSpeedX;
         nextLocationY = head.getY() + directionSpeedY;
 
-        if (locationIsValid()) {
+        if (!locationIsValid()) {
             terminateGame();
+            Intent intent = new Intent(getContext(), GameOverActivity.class);
+            intent.putExtra("SCORE", playerScore);
+            getContext().startActivity(intent);
             return;
         }
 

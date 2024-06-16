@@ -30,7 +30,6 @@
         <activity android:name=".zwevendeBelg.ZwevendeBelgGameActivity" />
         <activity android:name=".activities.MainActivity" android:exported="true" />
         <activity android:name=".cobra.CobraGameActivity"/>
-        <activity android:name=".ZwevendeBelg.ZwevendeBelgGameActivity" />
     </application>
 
 </manifest>
