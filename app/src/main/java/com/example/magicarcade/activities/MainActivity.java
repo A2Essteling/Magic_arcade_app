@@ -13,7 +13,6 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.magicarcade.R;
 import com.example.magicarcade.adapters.ViewPagerAdapter;
-import com.example.magicarcade.fragments.ConnectFragment;
 import com.example.magicarcade.fragments.HomeFragment;
 import com.example.magicarcade.fragments.QRFragment;
 import com.example.magicarcade.fragments.ScoreboardFragment;
@@ -29,12 +28,12 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager2 viewPager;
     private TabLayout tabLayout;
     private ViewPagerAdapter viewPagerAdapter;
+    private ScoreboardFragment scoreboardFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 //        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         viewPager = findViewById(R.id.viewPager);
@@ -43,7 +42,8 @@ public class MainActivity extends AppCompatActivity {
 
         viewPagerAdapter.addFragment(new HomeFragment(), "Home");
         viewPagerAdapter.addFragment(new QRFragment(), "QR");
-        viewPagerAdapter.addFragment(new ScoreboardFragment(), "HighScore");
+        scoreboardFragment = new ScoreboardFragment();
+        viewPagerAdapter.addFragment(scoreboardFragment, "HighScore");
         viewPagerAdapter.addFragment(new VoucherFragment(), "Voucher");
 //        viewPagerAdapter.addFragment(new ConnectFragment(), "Settings");
 
@@ -52,11 +52,14 @@ public class MainActivity extends AppCompatActivity {
         new TabLayoutMediator(tabLayout, viewPager,
                 (tab, position) -> tab.setText(viewPagerAdapter.getPageTitle(position))
         ).attach();
+
         bindMqttService();
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mqttService.onDestroy();
         if (isBound) {
             unbindService(serviceConnection);
             isBound = false;
@@ -75,6 +78,11 @@ public class MainActivity extends AppCompatActivity {
             MqttService.LocalBinder binder = (MqttService.LocalBinder) service;
             mqttService = binder.getService();
             isBound = true;
+
+            // Set the handler for score updates
+            if (scoreboardFragment != null) {
+                binder.setScoreUpdateHandler(scoreboardFragment.getScoreUpdateHandler());
+            }
         }
 
         @Override

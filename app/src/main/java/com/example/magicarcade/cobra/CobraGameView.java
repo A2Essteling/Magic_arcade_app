@@ -5,8 +5,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Handler;
-import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
+
+import com.example.magicarcade.mqtt.MqttService;
+import com.example.magicarcade.objects.Profile;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -17,34 +20,40 @@ public class CobraGameView extends View {
     private static final int CELL_SIZE = 20;
     private static final int SNAKE_LENGTH = 3;
     private static final int MOVE_DELAY = 300;
+    private static Direction currentDirection;
 
     private ArrayList<Coordinate> snake;
     private Coordinate food;
-    private int direction = Direction.RIGHT;
-    private boolean isMoving = false;
     private Handler handler;
+    private int playerScore;
+
+    //movement
+    public static boolean isMoving = false;
+    private int directionSpeedX;
+    private int directionSpeedY;
+    private int SCOREADD = 100;
+    int nextLocationY;
+    int nextLocationX;
+    private int lives;
+
 
     public CobraGameView(Context context) {
         super(context);
         init();
     }
 
-    public CobraGameView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init();
-    }
-
-    public CobraGameView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init();
-    }
 
     private void init() {
+        playerScore = 0;
+        setDirectionSpeed(Direction.RIGHT);
+        lives = 3;
+
         snake = new ArrayList<>();
         for (int i = SNAKE_LENGTH - 1; i >= 0; i--) {
-            snake.add(new Coordinate(i, 0));
+            snake.add(new Coordinate(i + 30, 30));
         }
         spawnFood();
+
         handler = new Handler();
     }
 
@@ -65,51 +74,84 @@ public class CobraGameView extends View {
 
     public void startGame() {
         isMoving = true;
+        Log.d("Cobra", "start");
         handler.postDelayed(moveSnakeRunnable, MOVE_DELAY);
     }
 
-    public void pauseGame() {
+    public void terminateGame() {
+        Profile.addScore(playerScore);
         isMoving = false;
+        Log.d("Cobra", "died");
         handler.removeCallbacks(moveSnakeRunnable);
     }
 
-    private void moveSnake() {
+    private void update() {
         Coordinate head = snake.get(0);
-        int newX = head.getX();
-        int newY = head.getY();
-        switch (direction) {
-            case Direction.UP:
-                newY--;
-                break;
-            case Direction.DOWN:
-                newY++;
-                break;
-            case Direction.LEFT:
-                newX--;
-                break;
-            case Direction.RIGHT:
-                newX++;
-                break;
-        }
-        if (newX < 0 || newX >= GRID_SIZE || newY < 0 || newY >= GRID_SIZE) {
-            pauseGame();
+
+        nextLocationX = head.getX() + directionSpeedX;
+        nextLocationY = head.getY() + directionSpeedY;
+
+        if (locationIsValid()) {
+            lowerHealth();
             return;
         }
-        for (Coordinate c : snake) {
-            if (c.getX() == newX && c.getY() == newY) {
-                pauseGame();
-                return;
-            }
-        }
-        snake.add(0, new Coordinate(newX, newY));
-        if (newX == food.getX() && newY == food.getY()) {
-            spawnFood();
+
+        snake.add(0, new Coordinate(nextLocationX, nextLocationY));
+        if (nextLocationX == food.getX() && nextLocationY == food.getY()) {
+            foodConsumed();
         } else {
             snake.remove(snake.size() - 1);
         }
         invalidate();
         if (isMoving) {
             handler.postDelayed(moveSnakeRunnable, MOVE_DELAY);
+        }
+    }
+
+    public void setDirectionSpeed(Direction direction) {
+        Log.d("cobra", String.valueOf(direction));
+        if (currentDirection != direction)
+            switch (direction) {
+                case UP:
+                    if (currentDirection == Direction.DOWN){
+                        break;
+                    }
+                    currentDirection = direction;
+                    directionSpeedX = 0;
+                    directionSpeedY = 1;
+                    break;
+                case DOWN:
+                    if (currentDirection == Direction.UP){
+                        break;
+                    }
+                    currentDirection = direction;
+                    directionSpeedX = 0;
+                    directionSpeedY = -1;
+                    break;
+                case LEFT:
+                    if (currentDirection == Direction.RIGHT){
+                        break;
+                    }
+                    currentDirection = direction;
+                    directionSpeedX = -1;
+                    directionSpeedY = 0;
+                    break;
+                case RIGHT:
+                    if (currentDirection == Direction.LEFT){
+                        break;
+                    }
+                    currentDirection = direction;
+                    directionSpeedX = 1;
+                    directionSpeedY = 0;
+                    break;
+
+            }
+    }
+
+    private void lowerHealth(){
+        lives -= 1;
+        if (lives < 0){
+            terminateGame();
         }
     }
 
@@ -120,18 +162,27 @@ public class CobraGameView extends View {
         food = new Coordinate(x, y);
     }
 
-    public void setDirection(int direction) {
-        if (Math.abs(this.direction - direction) != 2) {
-            this.direction = direction;
+    private void foodConsumed() {
+        spawnFood();
+        playerScore += SCOREADD;
+    }
+
+    private boolean locationIsValid() {
+        for (Coordinate coordinate : snake) {
+            if (nextLocationX == coordinate.getX() || nextLocationY == coordinate.getY())
+                return false;
         }
+
+        return !(nextLocationX < 0 || nextLocationX >= GRID_SIZE || nextLocationY < 0 || nextLocationY >= GRID_SIZE);
     }
 
     private final Runnable moveSnakeRunnable = new Runnable() {
         @Override
         public void run() {
-            moveSnake();
+            MqttService.publishMsgID("lcd", String.valueOf(playerScore));
+            Log.d("Cobra", "run");
+            update();
         }
     };
-
 
 }

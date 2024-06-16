@@ -64,7 +64,7 @@ public class QRFragment extends Fragment {
                 if ("MagicArcade_Game:Belg".equalsIgnoreCase(qrCodeContent)) {
                     Intent intent = new Intent(getContext(), ZwevendeBelgGameActivity.class);
                     startActivity(intent);
-                } else if ("Magic-arcade:Cobra".equalsIgnoreCase(qrCodeContent)) {
+                } else if ("MagicArcade_Game:Cobra".equalsIgnoreCase(qrCodeContent)) {
                     Intent intent = new Intent(getContext(), CobraGameActivity.class);
                     startActivity(intent);
                 }

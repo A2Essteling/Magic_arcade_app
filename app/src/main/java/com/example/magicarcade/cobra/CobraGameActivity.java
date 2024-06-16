@@ -1,18 +1,42 @@
 package com.example.magicarcade.cobra;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.magicarcade.mqtt.CobraConverter;
+import com.example.magicarcade.objects.Controller;
+import com.example.magicarcade.objects.Profile;
 
 public class CobraGameActivity extends AppCompatActivity {
 
 
+    private CobraGameView gameView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-        CobraGameView gameView = new CobraGameView(this);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        gameView = new CobraGameView(this);
+
+
+        Controller controller = Profile.getController();
+        CobraConverter cobraConverter = new CobraConverter(controller, this, gameView);
+
         setContentView(gameView);
         gameView.startGame();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        gameView.terminateGame();
+        Log.d("Cobra","destroy");
     }
 }
