@@ -18,6 +18,12 @@ import com.example.magicarcade.objects.Profile;
 public class HomeFragment extends Fragment {
 
     private TextView pointsTextView;
+    private TextView tv1;
+    private TextView tv2;
+    private TextView tv3;
+    private TextView tv4;
+    private TextView tv5;
+    private TextView tv6;
 
     public HomeFragment() {
     }
@@ -29,6 +35,20 @@ public class HomeFragment extends Fragment {
         pointsTextView = rootView.findViewById(R.id.textViewPoints);
         setupAttractionListeners(rootView);
         updatePointsText();
+
+         tv1= rootView.findViewById(R.id.attraction1Multiplier);
+         tv2= rootView.findViewById(R.id.attraction2Multiplier);
+         tv3= rootView.findViewById(R.id.attraction3Multiplier);
+         tv4= rootView.findViewById(R.id.attraction4Multiplier);
+         tv5= rootView.findViewById(R.id.attraction5Multiplier);
+         tv6= rootView.findViewById(R.id.attraction6Multiplier);
+
+         tv1.setText("X" + Math.round(Math.random() * 7+ 1));
+         tv2.setText("X" + Math.round(Math.random() * 7+ 1));
+         tv3.setText("X" + Math.round(Math.random() * 7+ 1));
+         tv4.setText("X" + Math.round(Math.random() * 7+ 1));
+         tv5.setText("X" + Math.round(Math.random() * 7+ 1));
+         tv6.setText("X" + Math.round(Math.random() * 7+ 1));
 
         return rootView;
     }
