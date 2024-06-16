@@ -143,7 +143,7 @@ public class CobraGameView extends View {
 
     private void foodConsumed() {
         spawnFood();
-        playerScore += 100;
+        playerScore += 1;
     }
 
     private boolean locationIsValid() {
