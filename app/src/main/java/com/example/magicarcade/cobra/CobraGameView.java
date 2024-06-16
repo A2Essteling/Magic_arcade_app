@@ -8,6 +8,9 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 
+import com.example.magicarcade.mqtt.MqttService;
+import com.example.magicarcade.objects.Profile;
+
 import java.util.ArrayList;
 import java.util.Random;
 

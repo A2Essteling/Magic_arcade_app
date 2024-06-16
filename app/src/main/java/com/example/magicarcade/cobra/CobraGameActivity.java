@@ -2,6 +2,7 @@ package com.example.magicarcade.cobra;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +14,8 @@ import com.example.magicarcade.objects.Profile;
 public class CobraGameActivity extends AppCompatActivity {
 
 
+    private CobraGameView gameView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,7 +23,7 @@ public class CobraGameActivity extends AppCompatActivity {
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        CobraGameView gameView = new CobraGameView(this);
+        gameView = new CobraGameView(this);
 
 
         Controller controller = Profile.getController();
@@ -28,5 +31,12 @@ public class CobraGameActivity extends AppCompatActivity {
 
         setContentView(gameView);
         gameView.startGame();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        gameView.terminateGame();
+        Log.d("Cobra","destroy");
     }
 }
