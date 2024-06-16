@@ -187,9 +187,9 @@ public class CobraGameView extends View {
 
     private boolean locationIsValid() {
         long currentTime = System.currentTimeMillis();
-        if (nextLocationX < 0 || nextLocationX >= GRID_SIZE || nextLocationY < 0 || nextLocationY >= GRID_SIZE) {
-            return false;
-        }
+//        if (nextLocationX < 0 || nextLocationX >= GRID_SIZE || nextLocationY < 0 || nextLocationY >= GRID_SIZE) {
+//            return false;
+//        }
 
         if (currentTime - startTime < SAFE_TIME) {
             return true;
@@ -200,7 +200,7 @@ public class CobraGameView extends View {
                 return false;
             }
         }
-        return true;
+        return nextLocationX < 0 || nextLocationX >= GRID_SIZE || nextLocationY < 0 || nextLocationY >= GRID_SIZE;
     }
 
     private final Runnable moveSnakeRunnable = new Runnable() {
