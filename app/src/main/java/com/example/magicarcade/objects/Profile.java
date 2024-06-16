@@ -1,6 +1,7 @@
 package com.example.magicarcade.objects;
 
 import com.example.magicarcade.Voucher;
+import com.example.magicarcade.mqtt.MqttService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,7 @@ public class Profile {
 
     public static void setHighScore(int highScore) {
         Profile.highScore = highScore;
+        MqttService.publishMsg("highscore/"+id, String.valueOf(highScore));
     }
 
     public static List<Voucher> getVouchers() {
@@ -54,5 +56,14 @@ public class Profile {
 
     public static Controller getController() {
         return controller;
+    }
+
+
+    public static void addScore(int playerScore) {
+        points += playerScore/20;
+        if (playerScore > highScore)
+            setHighScore(playerScore);
+
+
     }
 }
