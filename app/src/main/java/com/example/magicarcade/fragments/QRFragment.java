@@ -61,7 +61,7 @@ public class QRFragment extends Fragment {
             } else {
                 String qrCodeContent = result.getContents();
                 Log.d("qr", "Scanned QR code: " + qrCodeContent);
-                if ("Magic-arcade:Belg".equalsIgnoreCase(qrCodeContent)) {
+                if ("MagicArcade_Game:Belg".equalsIgnoreCase(qrCodeContent)) {
                     Intent intent = new Intent(getContext(), ZwevendeBelgGameActivity.class);
                     startActivity(intent);
                 } else if ("Magic-arcade:Cobra".equalsIgnoreCase(qrCodeContent)) {
