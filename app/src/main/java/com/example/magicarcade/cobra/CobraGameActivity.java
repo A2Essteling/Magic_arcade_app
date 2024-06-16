@@ -2,6 +2,7 @@ package com.example.magicarcade.cobra;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,7 +18,10 @@ public class CobraGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
         CobraGameView gameView = new CobraGameView(this);
+
 
         Controller controller = Profile.getController();
         CobraConverter cobraConverter = new CobraConverter(controller, this, gameView);
