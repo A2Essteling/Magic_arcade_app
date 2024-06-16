@@ -13,15 +13,11 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.magicarcade.R;
 import com.example.magicarcade.adapters.ViewPagerAdapter;
-import com.example.magicarcade.fragments.ConnectFragment;
 import com.example.magicarcade.fragments.HomeFragment;
 import com.example.magicarcade.fragments.QRFragment;
 import com.example.magicarcade.fragments.ScoreboardFragment;
 import com.example.magicarcade.fragments.VoucherFragment;
-import com.example.magicarcade.mqtt.CobraConverter;
 import com.example.magicarcade.mqtt.MqttService;
-import com.example.magicarcade.objects.Controller;
-import com.example.magicarcade.objects.Profile;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -32,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager2 viewPager;
     private TabLayout tabLayout;
     private ViewPagerAdapter viewPagerAdapter;
+    private ScoreboardFragment scoreboardFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +42,8 @@ public class MainActivity extends AppCompatActivity {
 
         viewPagerAdapter.addFragment(new HomeFragment(), "Home");
         viewPagerAdapter.addFragment(new QRFragment(), "QR");
-        viewPagerAdapter.addFragment(new ScoreboardFragment(), "HighScore");
+        scoreboardFragment = new ScoreboardFragment();
+        viewPagerAdapter.addFragment(scoreboardFragment, "HighScore");
         viewPagerAdapter.addFragment(new VoucherFragment(), "Voucher");
 //        viewPagerAdapter.addFragment(new ConnectFragment(), "Settings");
 
@@ -54,8 +52,10 @@ public class MainActivity extends AppCompatActivity {
         new TabLayoutMediator(tabLayout, viewPager,
                 (tab, position) -> tab.setText(viewPagerAdapter.getPageTitle(position))
         ).attach();
+
         bindMqttService();
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -78,6 +78,11 @@ public class MainActivity extends AppCompatActivity {
             MqttService.LocalBinder binder = (MqttService.LocalBinder) service;
             mqttService = binder.getService();
             isBound = true;
+
+            // Set the handler for score updates
+            if (scoreboardFragment != null) {
+                binder.setScoreUpdateHandler(scoreboardFragment.getScoreUpdateHandler());
+            }
         }
 
         @Override

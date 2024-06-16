@@ -3,11 +3,15 @@ package com.example.magicarcade.mqtt;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
+import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.example.magicarcade.fragments.ScoreboardFragment;
 import com.example.magicarcade.objects.Controller;
 import com.example.magicarcade.objects.Profile;
 import com.hivemq.client.mqtt.datatypes.MqttQos;
@@ -26,36 +30,45 @@ public class MqttService extends Service {
     private static Mqtt5AsyncClient client;
     private final IBinder binder = new LocalBinder();
 
+    private static Handler scoreUpdateHandler;
+
     public class LocalBinder extends Binder {
         public MqttService getService() {
             return MqttService.this;
         }
+        public void setScoreUpdateHandler(Handler handler) {
+            scoreUpdateHandler = handler;
+        }
     }
 
     public static void publishMsg(String topic, String msg) {
-        Log.d(TAG, "Publishing message...");
-        client.toBlocking().publishWith()
-                .topic(baseTopic + "/" + topic)
-                .qos(MqttQos.EXACTLY_ONCE)
-                .payload(msg.getBytes())
-                .retain(true)
-                .contentType("text/plain")
-                .send();
+        if (getState()) {
+            Log.d(TAG, "Publishing message...");
+            client.toBlocking().publishWith()
+                    .topic(baseTopic + "/" + topic)
+                    .qos(MqttQos.EXACTLY_ONCE)
+                    .payload(msg.getBytes())
+                    .retain(true)
+                    .contentType("text/plain")
+                    .send();
 
-        Log.d(TAG, "Message published");
+            Log.d(TAG, "Message published");
+        }
     }
 
     public static void publishMsgID(String topic, String msg) {
-        Log.d(TAG, "Publishing message...");
-        client.toBlocking().publishWith()
-                .topic(baseTopic + "/" + Profile.getController().getID().getValue() + "/" + topic)
-                .qos(MqttQos.EXACTLY_ONCE)
-                .payload(msg.getBytes())
-                .retain(true)
-                .contentType("text/plain")
-                .send();
+        if(getState()) {
+            Log.d(TAG, "Publishing message...");
+            client.toBlocking().publishWith()
+                    .topic(baseTopic + "/" + Profile.getController().getID().getValue() + "/" + topic)
+                    .qos(MqttQos.EXACTLY_ONCE)
+                    .payload(msg.getBytes())
+                    .retain(true)
+                    .contentType("text/plain")
+                    .send();
 
-        Log.d(TAG, "Message published");
+            Log.d(TAG, "Message published");
+        }
     }
 
     public static boolean getState() {
@@ -136,6 +149,15 @@ public class MqttService extends Service {
             controller.setJoyX(Math.round((Double.parseDouble(payload) / 4095 * 200) - 100));
         } else if (topic.equals(baseTopic + "/" + Profile.getController().getID().getValue() + "/joystickY")) {
             controller.setJoyY(Math.round((Double.parseDouble(payload) / 4095 * 200) - 100));
+        } else if (topic.substring(0,topic.lastIndexOf("/")).equals(baseTopic+"/highscore")) {
+            if (scoreUpdateHandler != null) {
+                Message message = scoreUpdateHandler.obtainMessage(1);
+                Bundle bundle = new Bundle();
+                bundle.putString("name", "test"); // Change this as needed
+                bundle.putInt("score", Integer.parseInt(payload));
+                message.setData(bundle);
+                scoreUpdateHandler.sendMessage(message);
+            }
         }
     }
 
