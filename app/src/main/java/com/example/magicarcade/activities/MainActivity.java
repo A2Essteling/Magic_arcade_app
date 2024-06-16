@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mqttService.onDestroy();
         if (isBound) {
             unbindService(serviceConnection);
             isBound = false;

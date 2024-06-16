@@ -121,9 +121,8 @@ public class MqttService extends Service {
     }
 
     private static void onMessageReceived(Mqtt5Publish publish) {
-//        Log.d(TAG, "Received message: " + new String(publish.getPayloadAsBytes()));
-//        Log.d(TAG, "Received topic: " + publish.getTopic().toString());
-        Log.d(TAG, String.valueOf(Profile.getController().getID().getValue()));
+        Log.d(TAG, "Received message: " + new String(publish.getPayloadAsBytes()));
+        Log.d(TAG, "Received topic: " + publish.getTopic().toString());
         Controller controller = Profile.getController();
         String payload = new String(publish.getPayloadAsBytes());
         String topic = publish.getTopic().toString();
@@ -138,7 +137,6 @@ public class MqttService extends Service {
         } else if (topic.equals(baseTopic + "/" + Profile.getController().getID().getValue() + "/joystickY")) {
             controller.setJoyY(Math.round((Double.parseDouble(payload) / 4095 * 200) - 100));
         }
-        Log.d(TAG, controller.toString());
     }
 
     public static void subscribe(String topic) {

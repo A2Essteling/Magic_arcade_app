@@ -40,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         buttonScan = findViewById(R.id.buttonScan);
 
         startMqttService();
+
         buttonConnect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,7 +127,6 @@ public class LoginActivity extends AppCompatActivity {
         boolean isConnected = MqttService.getState();
         if (isConnected) {
             String name = editTextName.getText().toString();
-
             if (validateInput(name, IDString)) {
                 // Input is valid, initiate QR code scan
                 onLoginSuccess();
@@ -142,6 +142,8 @@ public class LoginActivity extends AppCompatActivity {
         // Set profile information
         String name = editTextName.getText().toString();
         int ID = Integer.parseInt(IDString);
+        MqttService.subscribe(IDString+"/#");
+        MqttService.subscribe("highscore/#");
         Profile.setUserID(name);
         Profile.setControllerID(ID);
         Profile.setPoints(200);
