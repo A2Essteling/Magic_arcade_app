@@ -31,9 +31,10 @@ public class CobraGameView extends View {
     public static boolean isMoving = false;
     private int directionSpeedX;
     private int directionSpeedY;
-    int nextLocationX;
-    int nextLocationY;
     private int SCOREADD = 100;
+    int nextLocationY;
+    int nextLocationX;
+    private int lives;
 
 
     public CobraGameView(Context context) {
@@ -45,6 +46,7 @@ public class CobraGameView extends View {
     private void init() {
         playerScore = 0;
         setDirectionSpeed(Direction.RIGHT);
+        lives = 3;
 
         snake = new ArrayList<>();
         for (int i = SNAKE_LENGTH - 1; i >= 0; i--) {
@@ -79,7 +81,7 @@ public class CobraGameView extends View {
     public void terminateGame() {
         Profile.addScore(playerScore);
         isMoving = false;
-        Log.d("Cobra", "pause");
+        Log.d("Cobra", "died");
         handler.removeCallbacks(moveSnakeRunnable);
     }
 
@@ -90,7 +92,7 @@ public class CobraGameView extends View {
         nextLocationY = head.getY() + directionSpeedY;
 
         if (locationIsValid()) {
-            terminateGame();
+            lowerHealth();
             return;
         }
 
@@ -111,27 +113,46 @@ public class CobraGameView extends View {
         if (currentDirection != direction)
             switch (direction) {
                 case UP:
+                    if (currentDirection == Direction.DOWN){
+                        break;
+                    }
                     currentDirection = direction;
                     directionSpeedX = 0;
                     directionSpeedY = 1;
                     break;
                 case DOWN:
+                    if (currentDirection == Direction.UP){
+                        break;
+                    }
                     currentDirection = direction;
                     directionSpeedX = 0;
                     directionSpeedY = -1;
                     break;
                 case LEFT:
+                    if (currentDirection == Direction.RIGHT){
+                        break;
+                    }
                     currentDirection = direction;
                     directionSpeedX = -1;
                     directionSpeedY = 0;
                     break;
                 case RIGHT:
+                    if (currentDirection == Direction.LEFT){
+                        break;
+                    }
                     currentDirection = direction;
                     directionSpeedX = 1;
                     directionSpeedY = 0;
                     break;
 
             }
+    }
+
+    private void lowerHealth(){
+        lives -= 1;
+        if (lives < 0){
+            terminateGame();
+        }
     }
 
     private void spawnFood() {
