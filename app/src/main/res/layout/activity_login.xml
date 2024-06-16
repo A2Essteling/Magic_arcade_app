@@ -77,36 +77,30 @@
                 android:fontFamily="@font/verdana"
                 android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/textViewEnterPhoneID"
+            <Button
+                android:id="@+id/buttonScan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/enter_ID"
-                android:layout_marginTop="20dp"
-                android:textColor="@color/black"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30dp"
+                android:backgroundTint="@color/gray"
                 android:fontFamily="@font/verdana"
-                android:textSize="18sp"
-                android:layout_gravity="center_horizontal" />
-
-            <EditText
-                android:id="@+id/editTextPhoneID"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:inputType="text"
-                android:textColor="@color/black" />
+                android:text="@string/QR_scan"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
 
             <Button
                 android:id="@+id/buttonConnect"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/connect"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="30dp"
                 android:backgroundTint="@color/gray"
-                android:textColor="@color/black"
                 android:fontFamily="@font/verdana"
-                android:textSize="18sp"
-                android:layout_gravity="center_horizontal"/>
+                android:text="@string/connect"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
