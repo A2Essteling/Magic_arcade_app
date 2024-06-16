@@ -5,28 +5,27 @@ import android.util.Log;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 
-import com.example.magicarcade.cobra.CobraGameView;
-import com.example.magicarcade.cobra.Direction;
 import com.example.magicarcade.objects.Controller;
+import com.example.magicarcade.zwevendeBelg.ZwevendeBelgGameActivity;
+import com.example.magicarcade.zwevendeBelg.ZwevendeBelgGameView;
 
-public class CobraConverter implements MqttConverter{
-    private static final String TAG = "CobraConverter";
+public class BelgConverter implements MqttConverter{
+    private static final String TAG = "BelgConverter";
     private Controller controller;
+    private ZwevendeBelgGameView zbgv;
 
-    public CobraConverter(Controller controller, LifecycleOwner lifecycleOwner) {
+    public BelgConverter(Controller controller, LifecycleOwner lifecycleOwner, ZwevendeBelgGameView zbgv) {
         this.controller = controller;
+        this.zbgv = zbgv;
         observeController(lifecycleOwner);
     }
 
+    @Override
     public void update() {
-        if (controller.getJoyY().getValue() < -15)
-            CobraGameView.setDirectionSpeed(Direction.UP);
-        if (controller.getJoyY().getValue() > 15)
-            CobraGameView.setDirectionSpeed(Direction.DOWN);
-        if (controller.getJoyX().getValue() < -15)
-            CobraGameView.setDirectionSpeed(Direction.LEFT);
-        if (controller.getJoyX().getValue() > 15)
-            CobraGameView.setDirectionSpeed(Direction.RIGHT);
+        if (controller.getButton1().getValue()){
+            zbgv.setBirdY();
+        }
+
     }
 
     private void observeController(LifecycleOwner owner) {
@@ -66,4 +65,10 @@ public class CobraConverter implements MqttConverter{
             }
         });
     }
+
+
+
+
+
+
 }
