@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Handler;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -18,12 +19,14 @@ public class CobraGameView extends View {
     private static final int CELL_SIZE = 20;
     private static final int SNAKE_LENGTH = 3;
     private static final int MOVE_DELAY = 300;
+    private static final int SAFE_TIME = 5000;
     private static Direction currentDirection;
 
     private ArrayList<Coordinate> snake;
     private Coordinate food;
     private Handler handler;
     private int playerScore;
+    private long startTime;
 
     //movement
     public static boolean isMoving = false;
@@ -35,6 +38,7 @@ public class CobraGameView extends View {
 
     public CobraGameView(Context context) {
         super(context);
+        setFocusable(true);
         init();
     }
 
@@ -42,7 +46,7 @@ public class CobraGameView extends View {
     private void init() {
         playerScore = 0;
         currentDirection = Direction.RIGHT;
-        setDirectionSpeed(Direction.RIGHT);
+        setDirectionSpeed(Direction.LEFT);
 
         snake = new ArrayList<>();
         for (int i = SNAKE_LENGTH - 1; i >= 0; i--) {
@@ -51,6 +55,7 @@ public class CobraGameView extends View {
         spawnFood();
 
         handler = new Handler();
+        startTime = System.currentTimeMillis();
     }
 
     @Override
@@ -141,6 +146,28 @@ public class CobraGameView extends View {
         }
     }
 
+    //Code om te testen op emulator
+
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        switch (keyCode) {
+//            case KeyEvent.KEYCODE_W:
+//                setDirectionSpeed(Direction.UP);
+//                return true;
+//            case KeyEvent.KEYCODE_S:
+//                setDirectionSpeed(Direction.DOWN);
+//                return true;
+//            case KeyEvent.KEYCODE_A:
+//                setDirectionSpeed(Direction.LEFT);
+//                return true;
+//            case KeyEvent.KEYCODE_D:
+//                setDirectionSpeed(Direction.RIGHT);
+//                return true;
+//            default:
+//                return super.onKeyDown(keyCode, event);
+//        }
+//    }
+
     private void spawnFood() {
         Random random = new Random();
         int x = random.nextInt(GRID_SIZE);
@@ -154,8 +181,13 @@ public class CobraGameView extends View {
     }
 
     private boolean locationIsValid() {
+        long currentTime = System.currentTimeMillis();
         if (nextLocationX < 0 || nextLocationX >= GRID_SIZE || nextLocationY < 0 || nextLocationY >= GRID_SIZE) {
             return false;
+        }
+
+        if (currentTime - startTime < SAFE_TIME) {
+            return true;
         }
 
         for (Coordinate coordinate : snake) {
