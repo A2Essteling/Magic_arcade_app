@@ -187,20 +187,20 @@ public class CobraGameView extends View {
 
     private boolean locationIsValid() {
         long currentTime = System.currentTimeMillis();
-//        if (nextLocationX < 0 || nextLocationX >= GRID_SIZE || nextLocationY < 0 || nextLocationY >= GRID_SIZE) {
-//            return false;
-//        }
+        if (nextLocationX < 0 || nextLocationX >= GRID_SIZE || nextLocationY < 0 || nextLocationY >= GRID_SIZE) {
+            return false;
+        }
 
         if (currentTime - startTime < SAFE_TIME) {
             return true;
         }
 
-        for (Coordinate coordinate : snake) {
-            if (nextLocationX == coordinate.getX() && nextLocationY == coordinate.getY()) {
-                return false;
-            }
-        }
-        return nextLocationX < 0 || nextLocationX >= GRID_SIZE || nextLocationY < 0 || nextLocationY >= GRID_SIZE;
+//        for (Coordinate coordinate : snake) {
+//            if (nextLocationX == coordinate.getX() && nextLocationY == coordinate.getY()) {
+//                return false;
+//            }
+//        }
+        return true;
     }
 
     private final Runnable moveSnakeRunnable = new Runnable() {
