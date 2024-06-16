@@ -9,6 +9,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.magicarcade.R;
@@ -19,19 +20,17 @@ public class HomeFragment extends Fragment {
     private TextView pointsTextView;
 
     public HomeFragment() {
-
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
         pointsTextView = rootView.findViewById(R.id.textViewPoints);
         setupAttractionListeners(rootView);
         updatePointsText();
 
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        return rootView;
     }
 
     @SuppressLint("WrongViewCast")
@@ -46,42 +45,42 @@ public class HomeFragment extends Fragment {
         attraction1Layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showToast("Attraction 1 clicked");
+                showToast("Jonkheer 1897 clicked");
             }
         });
 
         attraction2Layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showToast("Attraction 2 clicked");
+                showToast("Astrolica clicked");
             }
         });
 
         attraction3Layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showToast("Attraction 3 clicked");
+                showToast("De Zwevende Belg clicked");
             }
         });
 
         attraction4Layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showToast("Attraction 4 clicked");
+                showToast("Droomreis clicked");
             }
         });
 
         attraction5Layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showToast("Attraction 5 clicked");
+                showToast("Johan & de Eenhoorn clicked");
             }
         });
 
         attraction6Layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showToast("Attraction 6 clicked");
+                showToast("Cobra clicked");
             }
         });
     }
@@ -92,7 +91,7 @@ public class HomeFragment extends Fragment {
 
     private void updatePointsText() {
         if (pointsTextView != null) {
-            pointsTextView.setText(getString(R.string.points_on_account) + ": " + Profile.getPoints());
+            pointsTextView.setText(getString(R.string.points_on_account) + " " + Profile.getPoints());
         }
     }
 }

@@ -39,6 +39,10 @@ public class Profile {
     public static List<Voucher> getVouchers() {
         return vouchers;
     }
+    public static void setVouchers(List<Voucher> newVouchers) {
+        vouchers.clear();
+        vouchers.addAll(newVouchers);
+    }
 
     public static void addVoucher(Voucher voucher) {
         vouchers.add(voucher);
