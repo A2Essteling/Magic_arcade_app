@@ -1,11 +1,13 @@
 package com.example.magicarcade.cobra;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Handler;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 
 import com.example.magicarcade.mqtt.MqttService;
@@ -20,12 +22,14 @@ public class CobraGameView extends View {
     private static final int CELL_SIZE = 20;
     private static final int SNAKE_LENGTH = 3;
     private static final int MOVE_DELAY = 300;
+    private static final int SAFE_TIME = 5000;
     private static Direction currentDirection;
 
     private ArrayList<Coordinate> snake;
     private Coordinate food;
     private Handler handler;
     private int playerScore;
+    private long startTime;
 
     //movement
     public static boolean isMoving = false;
@@ -39,14 +43,16 @@ public class CobraGameView extends View {
 
     public CobraGameView(Context context) {
         super(context);
+        setFocusable(true);
         init();
     }
 
 
     private void init() {
         playerScore = 0;
-        setDirectionSpeed(Direction.RIGHT);
         lives = 3;
+        currentDirection = Direction.RIGHT;
+        setDirectionSpeed(Direction.LEFT);
 
         snake = new ArrayList<>();
         for (int i = SNAKE_LENGTH - 1; i >= 0; i--) {
@@ -55,6 +61,7 @@ public class CobraGameView extends View {
         spawnFood();
 
         handler = new Handler();
+        startTime = System.currentTimeMillis();
     }
 
     @Override
@@ -91,7 +98,11 @@ public class CobraGameView extends View {
         nextLocationX = head.getX() + directionSpeedX;
         nextLocationY = head.getY() + directionSpeedY;
 
-        if (locationIsValid()) {
+        if (!locationIsValid()) {
+            terminateGame();
+            Intent intent = new Intent(getContext(), GameOverActivity.class);
+            intent.putExtra("SCORE", playerScore);
+            getContext().startActivity(intent);
             lowerHealth();
             return;
         }
@@ -109,8 +120,15 @@ public class CobraGameView extends View {
     }
 
     public void setDirectionSpeed(Direction direction) {
+        if ((currentDirection == Direction.UP && direction == Direction.DOWN) ||
+                (currentDirection == Direction.DOWN && direction == Direction.UP) ||
+                (currentDirection == Direction.LEFT && direction == Direction.RIGHT) ||
+                (currentDirection == Direction.RIGHT && direction == Direction.LEFT)) {
+            return;
+        }
+
         Log.d("cobra", String.valueOf(direction));
-        if (currentDirection != direction)
+        if (currentDirection != direction) {
             switch (direction) {
                 case UP:
                     if (currentDirection == Direction.DOWN){
@@ -118,7 +136,7 @@ public class CobraGameView extends View {
                     }
                     currentDirection = direction;
                     directionSpeedX = 0;
-                    directionSpeedY = 1;
+                    directionSpeedY = -1;
                     break;
                 case DOWN:
                     if (currentDirection == Direction.UP){
@@ -126,7 +144,7 @@ public class CobraGameView extends View {
                     }
                     currentDirection = direction;
                     directionSpeedX = 0;
-                    directionSpeedY = -1;
+                    directionSpeedY = 1;
                     break;
                 case LEFT:
                     if (currentDirection == Direction.RIGHT){
@@ -144,8 +162,8 @@ public class CobraGameView extends View {
                     directionSpeedX = 1;
                     directionSpeedY = 0;
                     break;
-
             }
+        }
     }
 
     private void lowerHealth(){
@@ -168,12 +186,21 @@ public class CobraGameView extends View {
     }
 
     private boolean locationIsValid() {
-        for (Coordinate coordinate : snake) {
-            if (nextLocationX == coordinate.getX() || nextLocationY == coordinate.getY())
-                return false;
+        long currentTime = System.currentTimeMillis();
+        if (nextLocationX < 0 || nextLocationX >= GRID_SIZE || nextLocationY < 0 || nextLocationY >= GRID_SIZE) {
+            return false;
         }
 
-        return !(nextLocationX < 0 || nextLocationX >= GRID_SIZE || nextLocationY < 0 || nextLocationY >= GRID_SIZE);
+        if (currentTime - startTime < SAFE_TIME) {
+            return true;
+        }
+
+        for (Coordinate coordinate : snake) {
+            if (nextLocationX == coordinate.getX() && nextLocationY == coordinate.getY()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private final Runnable moveSnakeRunnable = new Runnable() {
