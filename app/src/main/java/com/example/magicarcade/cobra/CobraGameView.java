@@ -41,6 +41,7 @@ public class CobraGameView extends View {
 
     private void init() {
         playerScore = 0;
+        currentDirection = Direction.RIGHT;
         setDirectionSpeed(Direction.RIGHT);
 
         snake = new ArrayList<>();
@@ -85,7 +86,7 @@ public class CobraGameView extends View {
         nextLocationX = head.getX() + directionSpeedX;
         nextLocationY = head.getY() + directionSpeedY;
 
-        if (locationIsValid()) {
+        if (!locationIsValid()) {
             terminateGame();
             Intent intent = new Intent(getContext(), GameOverActivity.class);
             intent.putExtra("SCORE", playerScore);
@@ -106,18 +107,25 @@ public class CobraGameView extends View {
     }
 
     public void setDirectionSpeed(Direction direction) {
+        if ((currentDirection == Direction.UP && direction == Direction.DOWN) ||
+                (currentDirection == Direction.DOWN && direction == Direction.UP) ||
+                (currentDirection == Direction.LEFT && direction == Direction.RIGHT) ||
+                (currentDirection == Direction.RIGHT && direction == Direction.LEFT)) {
+            return;
+        }
+
         Log.d("cobra", String.valueOf(direction));
-        if (currentDirection != direction)
+        if (currentDirection != direction) {
             switch (direction) {
                 case UP:
                     currentDirection = direction;
                     directionSpeedX = 0;
-                    directionSpeedY = 1;
+                    directionSpeedY = -1;
                     break;
                 case DOWN:
                     currentDirection = direction;
                     directionSpeedX = 0;
-                    directionSpeedY = -1;
+                    directionSpeedY = 1;
                     break;
                 case LEFT:
                     currentDirection = direction;
@@ -129,8 +137,8 @@ public class CobraGameView extends View {
                     directionSpeedX = 1;
                     directionSpeedY = 0;
                     break;
-
             }
+        }
     }
 
     private void spawnFood() {
@@ -146,20 +154,22 @@ public class CobraGameView extends View {
     }
 
     private boolean locationIsValid() {
-        for (Coordinate coordinate : snake) {
-            if (nextLocationX == coordinate.getX() || nextLocationY == coordinate.getY())
-                return false;
+        if (nextLocationX < 0 || nextLocationX >= GRID_SIZE || nextLocationY < 0 || nextLocationY >= GRID_SIZE) {
+            return false;
         }
 
-        return !(nextLocationX < 0 || nextLocationX >= GRID_SIZE || nextLocationY < 0 || nextLocationY >= GRID_SIZE);
+        for (Coordinate coordinate : snake) {
+            if (nextLocationX == coordinate.getX() && nextLocationY == coordinate.getY()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private final Runnable moveSnakeRunnable = new Runnable() {
         @Override
         public void run() {
             Log.d("Cobra", "run");
-//            Log.d("Cobra", String.valueOf(directionSpeedY));
-//            Log.d("Cobra", String.valueOf(directionSpeedX));
             update();
         }
     };
