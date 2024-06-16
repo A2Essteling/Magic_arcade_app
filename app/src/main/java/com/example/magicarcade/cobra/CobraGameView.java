@@ -76,7 +76,7 @@ public class CobraGameView extends View {
 
     public void terminateGame() {
         isMoving = false;
-        Log.d("Cobra", "pause");
+        Log.d("Cobra", "died");
         handler.removeCallbacks(moveSnakeRunnable);
     }
 
@@ -108,21 +108,33 @@ public class CobraGameView extends View {
         if (currentDirection != direction)
             switch (direction) {
                 case UP:
+                    if (currentDirection == Direction.DOWN){
+                        break;
+                    }
                     currentDirection = direction;
                     directionSpeedX = 0;
                     directionSpeedY = 1;
                     break;
                 case DOWN:
+                    if (currentDirection == Direction.UP){
+                        break;
+                    }
                     currentDirection = direction;
                     directionSpeedX = 0;
                     directionSpeedY = -1;
                     break;
                 case LEFT:
+                    if (currentDirection == Direction.RIGHT){
+                        break;
+                    }
                     currentDirection = direction;
                     directionSpeedX = -1;
                     directionSpeedY = 0;
                     break;
                 case RIGHT:
+                    if (currentDirection == Direction.LEFT){
+                        break;
+                    }
                     currentDirection = direction;
                     directionSpeedX = 1;
                     directionSpeedY = 0;
