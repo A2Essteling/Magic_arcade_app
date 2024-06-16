@@ -20,7 +20,7 @@ public class CobraGameActivity extends AppCompatActivity {
         CobraGameView gameView = new CobraGameView(this);
 
         Controller controller = Profile.getController();
-        CobraConverter cobraConverter = new CobraConverter(controller, this);
+        CobraConverter cobraConverter = new CobraConverter(controller, this, gameView);
 
         setContentView(gameView);
         gameView.startGame();

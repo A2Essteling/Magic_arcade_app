@@ -12,21 +12,23 @@ import com.example.magicarcade.objects.Controller;
 public class CobraConverter {
     private static final String TAG = "CobraConverter";
     private Controller controller;
+    private CobraGameView cobraGameView;
 
-    public CobraConverter(Controller controller, LifecycleOwner lifecycleOwner) {
+    public CobraConverter(Controller controller, LifecycleOwner lifecycleOwner, CobraGameView view) {
         this.controller = controller;
+        this.cobraGameView = view;
         observeController(lifecycleOwner);
     }
 
     private void update() {
         if (controller.getJoyY().getValue() < -15)
-            CobraGameView.setDirectionSpeed(Direction.UP);
+            cobraGameView.setDirectionSpeed(Direction.DOWN);
         if (controller.getJoyY().getValue() > 15)
-            CobraGameView.setDirectionSpeed(Direction.DOWN);
+            cobraGameView.setDirectionSpeed(Direction.UP);
         if (controller.getJoyX().getValue() < -15)
-            CobraGameView.setDirectionSpeed(Direction.LEFT);
+            cobraGameView.setDirectionSpeed(Direction.RIGHT);
         if (controller.getJoyX().getValue() > 15)
-            CobraGameView.setDirectionSpeed(Direction.RIGHT);
+            cobraGameView.setDirectionSpeed(Direction.LEFT);
     }
 
     private void observeController(LifecycleOwner owner) {

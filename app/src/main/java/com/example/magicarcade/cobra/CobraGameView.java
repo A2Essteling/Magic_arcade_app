@@ -26,8 +26,8 @@ public class CobraGameView extends View {
 
     //movement
     public static boolean isMoving = false;
-    private static int directionSpeedX;
-    private static int directionSpeedY;
+    private int directionSpeedX;
+    private int directionSpeedY;
     int nextLocationX;
     int nextLocationY;
 
@@ -106,7 +106,7 @@ public class CobraGameView extends View {
         }
     }
 
-    public static void setDirectionSpeed(Direction direction) {
+    public void setDirectionSpeed(Direction direction) {
         Log.d("cobra", String.valueOf(direction));
         if (currentDirection != direction)
             switch (direction) {
