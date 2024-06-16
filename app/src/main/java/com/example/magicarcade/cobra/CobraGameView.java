@@ -72,7 +72,7 @@ public class CobraGameView extends View {
         handler.postDelayed(moveSnakeRunnable, MOVE_DELAY);
     }
 
-    public void pauseGame() {
+    public void terminateGame() {
         isMoving = false;
         Log.d("Cobra", "pause");
         handler.removeCallbacks(moveSnakeRunnable);
@@ -84,16 +84,11 @@ public class CobraGameView extends View {
         nextLocationX = head.getX() + directionSpeedX;
         nextLocationY = head.getY() + directionSpeedY;
 
-//        if (locationIsValid()) {
-////            pauseGame();
-//            return;
-//        }
-//        for (Coordinate c : snake) {
-//            if (c.getX() == nextLocationX && c.getY() == nextLocationY) {
-////                pauseGame();
-//                return;
-//            }
-//        }
+        if (locationIsValid()) {
+            terminateGame();
+            return;
+        }
+
         snake.add(0, new Coordinate(nextLocationX, nextLocationY));
         if (nextLocationX == food.getX() && nextLocationY == food.getY()) {
             foodConsumed();
