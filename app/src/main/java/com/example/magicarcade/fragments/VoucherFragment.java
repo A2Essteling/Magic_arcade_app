@@ -20,6 +20,7 @@ import com.example.magicarcade.R;
 import com.example.magicarcade.Voucher;
 import com.example.magicarcade.objects.Profile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class VoucherFragment extends Fragment {
@@ -149,6 +150,46 @@ public class VoucherFragment extends Fragment {
             voucherView.setOnClickListener(v -> showBarcodePopup(voucher.getName(), voucher.getImageResId()));
 
             boughtVouchersLayout.addView(voucherView);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList("boughtVouchers", new ArrayList<>(Profile.getVouchers()));
+        outState.putParcelable("selectedVoucher", selectedVoucher);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null) {
+            List<Voucher> boughtVouchers = savedInstanceState.getParcelableArrayList("boughtVouchers");
+            if (boughtVouchers != null) {
+                Profile.setVouchers(boughtVouchers);
+                updateBoughtVouchersDisplay();
+            }
+
+            selectedVoucher = savedInstanceState.getParcelable("selectedVoucher");
+            if (selectedVoucher != null) {
+                updateVoucherSelection();
+            }
+        }
+    }
+
+    private void updateVoucherSelection() {
+        if (getView() != null && selectedVoucher != null) {
+            for (int i = 0; i < boughtVouchersLayout.getChildCount(); i++) {
+                View child = boughtVouchersLayout.getChildAt(i);
+                if (child instanceof TextView) {
+                    TextView textView = (TextView) child;
+                    if (textView.getText().toString().contains(selectedVoucher.getName())) {
+                        textView.setBackgroundColor(0xFFD3D3D3);
+                    } else {
+                        textView.setBackgroundColor(0x00000000);
+                    }
+                }
+            }
         }
     }
 }
