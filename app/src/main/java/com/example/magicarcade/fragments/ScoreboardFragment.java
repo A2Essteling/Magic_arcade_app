@@ -29,7 +29,16 @@ public class ScoreboardFragment extends Fragment {
     private ListView highScoreListView;
     private static ScoreAdapter scoreAdapter;
 
-    private Handler scoreUpdateHandler;
+    private Handler scoreUpdateHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            if (msg.what == 1) {
+                String name = msg.getData().getString("name");
+                int score = msg.getData().getInt("score");
+                addScore(name, score);
+            }
+        }
+    };
 
     public ScoreboardFragment() {
 
@@ -44,16 +53,7 @@ public class ScoreboardFragment extends Fragment {
         scoreAdapter = new ScoreAdapter(requireContext(), scoreList);
         highScoreListView.setAdapter(scoreAdapter);
 
-        scoreUpdateHandler = new Handler(Looper.getMainLooper()) {
-            @Override
-            public void handleMessage(@NonNull Message msg) {
-                if (msg.what == 1) {
-                    String name = msg.getData().getString("name");
-                    int score = msg.getData().getInt("score");
-                    addScore(name, score);
-                }
-            }
-        };
+
 
 //        addScore("storm", 120); // test data voor highscores
 //        addScore("storm2", 100);

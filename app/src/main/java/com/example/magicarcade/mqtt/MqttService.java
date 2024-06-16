@@ -153,7 +153,7 @@ public class MqttService extends Service {
             if (scoreUpdateHandler != null) {
                 Message message = scoreUpdateHandler.obtainMessage(1);
                 Bundle bundle = new Bundle();
-                bundle.putString("name", "test"); // Change this as needed
+                bundle.putString("name", topic.substring(topic.lastIndexOf("/")+1)); // Change this as needed
                 bundle.putInt("score", Integer.parseInt(payload));
                 message.setData(bundle);
                 scoreUpdateHandler.sendMessage(message);
