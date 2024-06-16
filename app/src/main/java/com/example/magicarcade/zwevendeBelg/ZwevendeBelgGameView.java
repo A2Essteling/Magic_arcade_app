@@ -129,5 +129,10 @@ public class ZwevendeBelgGameView extends SurfaceView implements Runnable {
         }
     }
 
+    public void setBirdY(){
+        birdSpeedY = 3;
 
+
+
+    }
 }
