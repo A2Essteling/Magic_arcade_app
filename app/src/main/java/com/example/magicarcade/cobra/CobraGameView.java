@@ -28,8 +28,9 @@ public class CobraGameView extends View {
     public static boolean isMoving = false;
     private int directionSpeedX;
     private int directionSpeedY;
-    int nextLocationX;
-    int nextLocationY;
+    private int nextLocationX;
+    private int nextLocationY;
+    private int lives;
 
 
     public CobraGameView(Context context) {
@@ -41,6 +42,7 @@ public class CobraGameView extends View {
     private void init() {
         playerScore = 0;
         setDirectionSpeed(Direction.RIGHT);
+        lives = 3;
 
         snake = new ArrayList<>();
         for (int i = SNAKE_LENGTH - 1; i >= 0; i--) {
@@ -85,7 +87,7 @@ public class CobraGameView extends View {
         nextLocationY = head.getY() + directionSpeedY;
 
         if (locationIsValid()) {
-            terminateGame();
+            lowerHealth();
             return;
         }
 
@@ -127,6 +129,13 @@ public class CobraGameView extends View {
                     break;
 
             }
+    }
+
+    private void lowerHealth(){
+        lives -= 1;
+        if (lives < 0){
+            terminateGame();
+        }
     }
 
     private void spawnFood() {
