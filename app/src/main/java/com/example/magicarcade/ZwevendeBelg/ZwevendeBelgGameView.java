@@ -10,72 +10,52 @@ import android.graphics.Paint;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
 import androidx.core.content.ContextCompat;
+
 import com.example.magicarcade.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
 
 public class ZwevendeBelgGameView extends SurfaceView implements Runnable {
-    // Sprites have a width of 16 and a height of 10
     private Thread gameThread = null;
-    private Paint paint;
-    private SurfaceHolder holder;
+    private Paint paint = new Paint();
+    private SurfaceHolder holder = getHolder();
     private volatile boolean running = false;
-    private Bitmap belgDown, belgUp, belgStationary;
-    private Bitmap carTopBack, carTopMiddle, carTopFront, carBottomBack, carBottomMiddle, carBottomFront;
-    private Bitmap currentBird;
-    private int imageHeight;
-    private int imageWidth;
-    private int gapHeight;
-    private int screenWidth;
-    private int screenHeight;
-    private int belgX, belgY;
-    private double belgSpeedY;
-    private int carX, carY;
-    private int carSpeedX;
-    private int prevCarSpawnTime;
-    private int carSpawnTime;
-    private int dayNightCycle;
-    private ArrayList<CarRow> cars = new ArrayList<>();
-    private Color theColor = Color.valueOf(ContextCompat.getColor(getContext(), R.color.lightBlue));
+    private Bitmap belgDown, belgUp, belgStationary,
+            carTopBack, carTopMiddle, carTopFront, carBottomBack, carBottomMiddle, carBottomFront;
     private ArrayList<GameObject> gameObjects = new ArrayList<>();
+    private Belg belg;
+    private int objectSpawnTime = 0;
+    private int prevObjectSpawnTime = 200;
+    private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
+    private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
+    private Color theColor = Color.valueOf(ContextCompat.getColor(getContext(), R.color.lightBlue));
+    private int gapHeight = 400;
+    private int gameSpeedX = 2;
+    private int imageWidth = 20;
+    private int dayNightCycle = 0;
+    private int gameX;
 
     public ZwevendeBelgGameView(Context context) {
+        // TODO:
+        //  -collision detection
+        //  -spawning pipes (minor fixes)
+        //  -menu popup with an exit game button
+        //  -difficulty (final adjustments)
+
         // Configure game settings
         super(context);
-        holder = getHolder();
-        paint = new Paint();
 
-        belgUp = BitmapFactory.decodeResource(getResources(), R.drawable.belg_up);
-        belgStationary = BitmapFactory.decodeResource(getResources(), R.drawable.belg_stationary);
-        belgDown = BitmapFactory.decodeResource(getResources(), R.drawable.belg_down);
+        HashMap<String, Bitmap> playerMap = new HashMap<>();
+        playerMap.put("up", BitmapFactory.decodeResource(getResources(), R.drawable.belg_up));
+        playerMap.put("stationary", BitmapFactory.decodeResource(getResources(), R.drawable.belg_stationary));
+        playerMap.put("down", BitmapFactory.decodeResource(getResources(), R.drawable.belg_down));
 
-        currentBird = belgStationary;
-        belgX = 100;
-        belgY = 100;
-        belgSpeedY = 0;
-
-        imageWidth = 30;
-        imageHeight = 20;
-        screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
-        screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels-110;
-        gapHeight = 500;
-
-        carSpawnTime = 50;
-        prevCarSpawnTime = 100;
-        dayNightCycle = 0;
-
-        carTopBack = BitmapFactory.decodeResource(getResources(), R.drawable.car_top_back_red);
-        carTopMiddle = BitmapFactory.decodeResource(getResources(), R.drawable.car_top_middle_red);
-        carTopFront = BitmapFactory.decodeResource(getResources(), R.drawable.car_top_front_red);
-
-        carBottomFront = BitmapFactory.decodeResource(getResources(), R.drawable.car_bottom_front_red);
-        carBottomMiddle = BitmapFactory.decodeResource(getResources(), R.drawable.car_bottom_middle_red);
-        carBottomBack = BitmapFactory.decodeResource(getResources(), R.drawable.car_bottom_back_red);
-
-        carX = screenWidth+100;
-        carY = (int) (Math.random() * (screenHeight-(gapHeight+(imageHeight*2))) + (imageHeight*2));
-        carSpeedX = -5;
+        this.belg = new Belg(playerMap, screenWidth/6, screenHeight/6);
+        gameObjects.add(this.belg);
     }
 
     @Override
@@ -101,33 +81,40 @@ public class ZwevendeBelgGameView extends SurfaceView implements Runnable {
     }
 
     private void update() {
-        carX += carSpeedX;
+        gameX += gameSpeedX;
 
-        setBelgImage();
-        checkCollision();
         setDayNightCycle();
 
-        // Update carrows
-        for (CarRow carRow : cars) {
-            carRow.update(carX);
+        // Update game objects
+        for (GameObject gameObject : gameObjects) {
+            gameObject.update();
+            gameObject.setSpeedXDirection(gameSpeedX);
         }
 
         // Timers and adjustable values
-        if (carSpawnTime <= 0 || carX <= -carTopMiddle.getWidth()){
-            carX = getWidth();
-            carY = (int) (Math.random() * (screenHeight-(gapHeight+(imageHeight*2))) + (imageHeight*2));
+        if (objectSpawnTime <= 1 || gameX <= -imageWidth) {
+            gameX = screenWidth;
 
-            CarRow row = new CarRow(carX, carY);
-            row.generatePipeRowImages(carTopBack, carTopMiddle, carTopFront, carBottomFront, carBottomMiddle, carBottomFront,
-                                      imageHeight, gapHeight, screenHeight);
-            cars.add(row);
+            HashMap<String, Bitmap> newCarImages = new HashMap<>();
+            newCarImages.put("top_back", BitmapFactory.decodeResource(getResources(), R.drawable.car_top_back_red));
+            newCarImages.put("top_middle", BitmapFactory.decodeResource(getResources(), R.drawable.car_top_middle_red));
+            newCarImages.put("top_front", BitmapFactory.decodeResource(getResources(), R.drawable.car_top_front_red));
 
-            // Make game more difficult
-            carSpeedX += 1;
-            gapHeight -= 5;
-            carSpawnTime = prevCarSpawnTime -10;
+            newCarImages.put("bottom_front", BitmapFactory.decodeResource(getResources(), R.drawable.car_bottom_front_red));
+            newCarImages.put("bottom_middle", BitmapFactory.decodeResource(getResources(), R.drawable.car_bottom_middle_red));
+            newCarImages.put("bottom_back", BitmapFactory.decodeResource(getResources(), R.drawable.car_bottom_back_red));
+
+            Random random = new Random();
+            int rndY = random.nextInt(screenHeight-200)+100;
+            Car car = new Car(newCarImages, gameX, rndY, gapHeight, screenHeight);
+            gameObjects.add(car);
+
+            // Make the game more difficult
+            gameSpeedX += 1;
+            gapHeight -= 1;
+            objectSpawnTime = prevObjectSpawnTime -10;
         }
-        carSpawnTime -=1;
+        objectSpawnTime -= 1;
     }
 
     public void draw(Canvas canvas) {
@@ -136,12 +123,12 @@ public class ZwevendeBelgGameView extends SurfaceView implements Runnable {
             // Colors (light to dark)
             canvas.drawColor(theColor.toArgb());
 
-            // Draw belg
-            canvas.drawBitmap(currentBird, belgX, belgY, paint);
+            // Draw player
+            belg.draw(canvas, paint);
 
-            // Draw cars
-            for (CarRow carRow : cars) {
-                carRow.drawPipes(canvas, paint);
+            // Draw game objects
+            for (GameObject gameObject : gameObjects) {
+                gameObject.draw(canvas, paint);
             }
         }
     }
@@ -149,16 +136,12 @@ public class ZwevendeBelgGameView extends SurfaceView implements Runnable {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            belgSpeedY = -30;
-            currentBird = belgUp;
+            belg.bounce();
+            belg.setCurrentImage(belg.getImage("up"));
         }
         return true;
     }
 
-    public void bounce(){
-        belgSpeedY = -30;
-        currentBird = belgUp;
-    }
     public void resume() {
         running = true;
         gameThread = new Thread(this);
@@ -174,33 +157,6 @@ public class ZwevendeBelgGameView extends SurfaceView implements Runnable {
                 retry = false;
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }
-        }
-    }
-
-    public void setBelgImage(){
-        // Set current state of belg
-        belgY += belgSpeedY;
-        belgSpeedY += 2;
-        if (belgSpeedY > -5 && belgSpeedY < 5){
-            currentBird = belgStationary;
-        } else if (belgSpeedY >= 5) {
-            currentBird = belgDown;
-        } else if (belgSpeedY <= -5) {
-            currentBird = belgUp;
-        }
-    }
-
-    public void checkCollision(){
-        // Collision: Out of Bounds
-        if (belgY <= 0 || belgY >= screenHeight){
-            running = false;
-        }
-        // Collision: Car
-        if (belgX >= carX){
-            if (belgY + currentBird.getHeight() > carY + gapHeight ||
-                    belgY - currentBird.getHeight() < carY) {
-                running = false;
             }
         }
     }
@@ -233,5 +189,8 @@ public class ZwevendeBelgGameView extends SurfaceView implements Runnable {
         dayNightCycle+=1;
     }
 
-
+    public void bounce() {
+        belg.bounce();
+        belg.setCurrentImage(belg.getImage("up"));
+    }
 }
