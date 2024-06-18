@@ -39,6 +39,8 @@ public class CobraGameView extends View {
     int nextLocationY;
     int nextLocationX;
     private int lives;
+    private int GRID_SIZE_X = 100;
+    private int GRID_SIZE_Y = 40;
 
 
     public CobraGameView(Context context) {
@@ -187,7 +189,7 @@ public class CobraGameView extends View {
 
     private boolean locationIsValid() {
         long currentTime = System.currentTimeMillis();
-        if (nextLocationX < 0 || nextLocationX >= GRID_SIZE || nextLocationY < 0 || nextLocationY >= GRID_SIZE) {
+        if (nextLocationX < 0 || nextLocationX >= GRID_SIZE_X || nextLocationY < 0 || nextLocationY >= GRID_SIZE_Y) {
             return false;
         }
 
@@ -207,7 +209,7 @@ public class CobraGameView extends View {
         @Override
         public void run() {
             MqttService.publishMsgID("lcd", String.valueOf(playerScore));
-            Log.d("Cobra", "run");
+//            Log.d("Cobra", "run");
             update();
         }
     };

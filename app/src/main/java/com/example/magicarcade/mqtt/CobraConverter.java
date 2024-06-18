@@ -22,9 +22,9 @@ public class CobraConverter implements MqttConverter{
 
     public void update() {
         if (controller.getJoyY().getValue() < -15)
-            cobraGameView.setDirectionSpeed(Direction.DOWN);
-        if (controller.getJoyY().getValue() > 15)
             cobraGameView.setDirectionSpeed(Direction.UP);
+        if (controller.getJoyY().getValue() > 15)
+            cobraGameView.setDirectionSpeed(Direction.DOWN);
         if (controller.getJoyX().getValue() < -15)
             cobraGameView.setDirectionSpeed(Direction.RIGHT);
         if (controller.getJoyX().getValue() > 15)
