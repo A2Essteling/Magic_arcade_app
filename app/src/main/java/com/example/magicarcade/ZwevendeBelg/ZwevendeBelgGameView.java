@@ -1,4 +1,4 @@
-package com.example.magicarcade.zwevendeBelg;
+package com.example.magicarcade.ZwevendeBelg;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -155,6 +155,10 @@ public class ZwevendeBelgGameView extends SurfaceView implements Runnable {
         return true;
     }
 
+    public void bounce(){
+        belgSpeedY = -30;
+        currentBird = belgUp;
+    }
     public void resume() {
         running = true;
         gameThread = new Thread(this);

@@ -1,4 +1,4 @@
-package com.example.magicarcade.zwevendeBelg;
+package com.example.magicarcade.ZwevendeBelg;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;

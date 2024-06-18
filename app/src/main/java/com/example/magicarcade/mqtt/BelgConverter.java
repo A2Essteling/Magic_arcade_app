@@ -6,8 +6,7 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 
 import com.example.magicarcade.objects.Controller;
-import com.example.magicarcade.zwevendeBelg.ZwevendeBelgGameActivity;
-import com.example.magicarcade.zwevendeBelg.ZwevendeBelgGameView;
+import com.example.magicarcade.ZwevendeBelg.ZwevendeBelgGameView;
 
 public class BelgConverter implements MqttConverter{
     private static final String TAG = "BelgConverter";
@@ -23,7 +22,7 @@ public class BelgConverter implements MqttConverter{
     @Override
     public void update() {
         if (controller.getButton1().getValue()){
-            zbgv.setBirdY();
+            zbgv.bounce();
         }
 
     }
