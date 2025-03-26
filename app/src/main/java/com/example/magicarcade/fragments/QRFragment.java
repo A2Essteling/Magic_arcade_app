@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.magicarcade.R;
 import com.example.magicarcade.cobra.CobraGameActivity;
-import com.example.magicarcade.zwevendeBelg.ZwevendeBelgGameActivity;
+import com.example.magicarcade.ZwevendeBelg.ZwevendeBelgGameActivity;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 

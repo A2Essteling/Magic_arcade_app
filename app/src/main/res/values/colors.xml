@@ -6,8 +6,12 @@
 
 <!--    Added colors: -->
     <color name="lightBlue">#47E7FF</color>
-    <color name="lightGray">#D9D9D9</color>
+    <color name="lightDarkerBlue">#39BFF3</color>
+    <color name="blue">#2B98E7</color>
+    <color name="goingDarkBlue">#1E70DC</color>
+    <color name="almostDarkBlue">#1049D0</color>
     <color name="darkBlue">#0221c4</color>
+    <color name="lightGray">#D9D9D9</color>
     <color name="gray">#828282</color>
 
 <!--    Unused colors: -->
